@@ -1,0 +1,15 @@
+*.out
+*.o
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.7z
+*.dmg
+*.gz
+*.rar
+*.tar
+*.zip
