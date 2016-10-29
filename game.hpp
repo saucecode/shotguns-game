@@ -7,24 +7,28 @@
 
 class player_t;
 class Network;
+class world_t;
 
 class Game {
-	
+
 	private:
 	std::vector<player_t*> agents;
 
 	public:
 	Game();
-	
-	void update();
-	void render();
+
+	void update(float delta);
+	void render(float delta);
+	bool startNetworking();
 
 	sf::RenderWindow *window;
+	sf::View *playerView;
 	player_t *player;
 	Network *network;
-	
+
 	bool focused = false;
 	std::thread *networkThread;
+	world_t *world;
 
 };
 

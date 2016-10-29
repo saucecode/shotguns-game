@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 #include <iostream>
+#include <exception>
 
 Network::Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, player_t *player){
 	this->host = addr;
@@ -14,7 +15,9 @@ Network::Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*>
 	this->player = player;
 }
 
-bool Network::connect(std::string username) {	
+bool Network::connect(std::string username) {
+	std::cout << "Connecting to server " << host << " with username " << username << "\n";
+	
 	sf::Packet connectionRequestPacket;
 	connectionRequestPacket << PACKET_CONNECT << username;
 	this->socket.send(connectionRequestPacket, host, port);
@@ -24,20 +27,23 @@ bool Network::connect(std::string username) {
 	unsigned short senderport;
 	unsigned char packetid;
 	this->socket.receive(response, sender, senderport);
-	response >> packetid;
 	
 	if(sender != host || port != senderport){
-		throw "err.. Got response from a different host.";
+		throw std::runtime_error("Got response from a different host.");
 	}
+	
+	response >> packetid;
 	
 	if(packetid == PACKET_CONNECT){
 		bool success;
 		response >> success;
 		return success;
 	}else{
-		throw "err.. Got non-standard response packet id.";
+		throw std::runtime_error("Got non-standard response packet id.");
 	}
-	throw "err.. Reached bottom of connect function.";
+	
+	throw std::runtime_error("Reached bottom of connect function.");
+	return false;
 }
 
 void Network::send(sf::Packet packet){
@@ -73,9 +79,9 @@ void Network::run(){
 				std::cout << "Added player " << id << " named " << name << "\n";
 				
 			}else if(packetid == PACKET_DROP_PLAYER){
-				std::cout << "Received remove player packet\n";
 				unsigned short targetid;
 				packet >> targetid;
+				std::cout << "Received remove player packet for id " << targetid << "\n";
 				int i=0;
 				for(player_t *p : *agents){
 					if(p->id == targetid){
@@ -89,10 +95,8 @@ void Network::run(){
 				unsigned short playerid;
 				float x,y;
 				packet >> playerid >> x >> y;
-				std:: cout << playerid << " " << x << " " << y << "\n";
 				
 				if(playerid == 65535){
-					std::cout << "ALL BRACE!\n";
 					player->x = x;
 					player->y = y;
 				}else{

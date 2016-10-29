@@ -14,35 +14,23 @@
 std::vector<player_t*> agents;
 
 int main(){
-	
-	Game game;
-	
-	//player_t player(-1, 0,0, "snowflake");
-	//Network network("127.0.0.1", 43234, &agents, &player);
-	
-	/*try{
-		if(network.connect("snowflake")){
-			std::cout << "Connected!\n";
-		}else{
-			std::cout << "Failed to connect. Exiting...\n";
-			return 1;
-		}
-	}catch(std::string ex){
-		std::cout << ex << std::endl;
-	}*/
-	
-	//sf::RenderWindow window(sf::VideoMode(320, 320), "SFML works!");
-	//bool focused = false;
 
-	//std::thread networkThread(&Network::run, &network);
+	Game game;
+
+	game.startNetworking();
+
+	sf::Clock deltaTimer;
 
 	while (game.window->isOpen()){
-		game.update();
+		float delta = deltaTimer.restart().asSeconds();
+		// std::cout << delta << "\n";
+		game.update(delta);
+		game.render(delta);
 	}
-	
+
 	game.network->disconnect();
 	game.network->stop();
 	game.networkThread->join();
-	
+
 	return 0;
 }

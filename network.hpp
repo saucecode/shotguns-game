@@ -5,7 +5,7 @@
 #include <thread>
 #include <mutex>
 
-#include "player.hpp"
+class player_t;
 
 class Network {
 	private:
