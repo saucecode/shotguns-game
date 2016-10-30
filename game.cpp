@@ -11,15 +11,18 @@
 #include "world.hpp"
 
 Game::Game(){
+	const int WINDOW_WIDTH = 640;
+	const int WINDOW_HEIGHT = 480;
 	world = new world_t();
 	player = new player_t(-1, 0,0, "snowflake");
 	network = new Network("127.0.0.1", 43234, &agents, player, world);
 
-	window = new sf::RenderWindow(sf::VideoMode(320, 320), "SFML works!");
-	playerView = new sf::View(sf::FloatRect(0,0,320,320));
+	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML works!");
+	playerView = new sf::View(sf::FloatRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT));
 	playerView->setCenter(player->x, player->y);
 
 	window->setView(*playerView);
+	// window->setVerticalSyncEnabled(true);
 
 	world->addElement(new solid_t{-100,100,200,200});
 	world->addElement(new solid_t{132,100,64,16});
@@ -93,5 +96,5 @@ void Game::render(float delta){
 	world->drawElements(window);
 
 	window->display();
-	std::this_thread::sleep_for(std::chrono::milliseconds(20));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 }
