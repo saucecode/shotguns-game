@@ -19,6 +19,7 @@ class player_t {
 	short health;
 	unsigned short id;
 	std::string username;
+	bool hasDownloadedWorld = false;
 
 	bool keyState[256];
 	unsigned char keyTimers[256];

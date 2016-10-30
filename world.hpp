@@ -14,11 +14,10 @@ typedef struct {
 
 class world_t {
 
-	private:
+	public:
 
 	std::vector<solid_t*> elements;
-
-	public:
+	bool isLoaded = false;
 
 	world_t();
 	~world_t();

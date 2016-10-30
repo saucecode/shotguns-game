@@ -25,6 +25,7 @@ std::vector<player_t*> players;
 sf::UdpSocket socket;
 unsigned short SERVER_PORT = 43234;
 world_t *world;
+sf::Packet worldDataPacket;
 
 
 void createZombies(std::vector<zombie_t>& zombies);
@@ -54,6 +55,12 @@ int main(){
 	world->addElement(new solid_t{132,100,64,16});
 	world->addElement(new solid_t{132+64,64,64,128});
 
+	// forge PACKET_WORLD_DATA
+	worldDataPacket << PACKET_WORLD_DATA;
+	worldDataPacket << (int) world->elements.size();
+	for(solid_t *solid : world->elements){
+		worldDataPacket << solid->x << solid->y << solid->width << solid->height;
+	}
 
 	// start networking thread
 	std::thread networkThread(networking);
@@ -68,13 +75,22 @@ int main(){
 void gameLoop(){
 	std::cout << "Started logic thread loop.\n";
 	sf::Clock deltaTimer;
-	double delta;
+	float delta, seconds = 0;
+	bool secondPassed = false; // value is true for one frame every second
 
 	while(true){
 		delta = deltaTimer.restart().asSeconds();
+		seconds += delta;
+		if(seconds >= 1.0){
+			secondPassed = true;
+			seconds = 0;
+		}
 
 		for(player_t *player : players){
 			player->update(delta);
+
+			if(!player->hasDownloadedWorld && secondPassed)
+				player->send(worldDataPacket);
 
 			sf::Packet packetPosition;
 			packetPosition << PACKET_MOVE_PLAYER << (unsigned short) -1 << player->x << player->y;
@@ -128,6 +144,8 @@ void networking(){
 					addPlayerX << PACKET_ADD_PLAYER << player->id << player->username;
 					newplayer->send(addPlayerX);
 				}
+
+				newplayer->send(worldDataPacket);
 
 			}else if(packetid == PACKET_DISCONNECT){
 				std::cout << "Disconnect received.\n";
@@ -184,6 +202,9 @@ void networking(){
 				target->keyState[sf::Keyboard::Space] << "\n";
 				*/
 
+			}else if(packetid == PACKET_WORLD_DATA){
+				player_t *target = getPlayerByAddress(client, clientPort);
+				target->hasDownloadedWorld = true;
 			}
 		}
 	}

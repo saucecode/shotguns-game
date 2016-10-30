@@ -11,8 +11,9 @@
 #include "world.hpp"
 
 Game::Game(){
+	world = new world_t();
 	player = new player_t(-1, 0,0, "snowflake");
-	network = new Network("127.0.0.1", 43234, &agents, player);
+	network = new Network("127.0.0.1", 43234, &agents, player, world);
 
 	window = new sf::RenderWindow(sf::VideoMode(320, 320), "SFML works!");
 	playerView = new sf::View(sf::FloatRect(0,0,320,320));
@@ -20,12 +21,9 @@ Game::Game(){
 
 	window->setView(*playerView);
 
-	world = new world_t();
 	world->addElement(new solid_t{-100,100,200,200});
 	world->addElement(new solid_t{132,100,64,16});
 	world->addElement(new solid_t{132+64,64,64,128});
-
-
 
 }
 

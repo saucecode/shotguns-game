@@ -6,6 +6,7 @@
 #include <mutex>
 
 class player_t;
+class world_t;
 
 class Network {
 	private:
@@ -14,15 +15,16 @@ class Network {
 	sf::IpAddress host;
 	std::vector<player_t*> *agents;
 	player_t *player;
-	
+	world_t *world;
+
 	public:
 	bool running = true;
-		
-	Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, player_t *player);
-	
+
+	Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, player_t *player, world_t *world);
+
 	bool connect(std::string username);
 	void disconnect();
-	
+
 	void run();
 	player_t* getPlayerByID(unsigned short id);
 	void stop();
