@@ -11,7 +11,7 @@ player_t::player_t(unsigned short id, float x, float y, std::string username){
 	this->username = username;
 	shape = sf::CircleShape(8.0f);
 	shape.setFillColor(sf::Color::White);
-	shape.setOrigin(x + shape.getRadius()/2,y + shape.getRadius());
+	shape.setOrigin(x + shape.getRadius(),y + shape.getRadius()*2);
 }
 
 void player_t::update(double delta){
