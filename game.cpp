@@ -22,11 +22,8 @@ Game::Game(){
 	playerView->setCenter(player->x, player->y);
 
 	window->setView(*playerView);
-	// window->setVerticalSyncEnabled(true);
-
-	world->addElement(new solid_t{-100,100,200,200});
-	world->addElement(new solid_t{132,100,64,16});
-	world->addElement(new solid_t{132+64,64,64,128});
+	//window->setVerticalSyncEnabled(true);
+	window->setFramerateLimit(60);
 
 }
 
@@ -85,8 +82,12 @@ void Game::render(float delta){
 	playerView->setCenter(player->x, player->y);
 	window->setView(*playerView);
 
-	player->shape.setPosition(player->x, player->y);
-	window->draw(player->shape);
+	//player->shape.setPosition(player->x, player->y);
+	//window->draw(player->shape);
+	if(!player->resourcesLoaded)
+		player->loadResources();
+	player->sprite.setPosition(player->x, player->y);
+	window->draw(player->sprite);
 
 	for(player_t *agent : agents){
 		agent->shape.setPosition(agent->x, agent->y);
@@ -96,5 +97,5 @@ void Game::render(float delta){
 	world->drawElements(window);
 
 	window->display();
-	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	// std::this_thread::sleep_for(std::chrono::milliseconds(10));
 }

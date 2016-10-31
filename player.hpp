@@ -6,7 +6,11 @@
 
 class player_t {
 	public:
+
+	sf::Texture *characterTexture = nullptr;
+
 	const float moveSpeed = 4;
+	bool resourcesLoaded = false;
 	float x, y, vx, vy;
 	char direction;
 	short health;
@@ -21,10 +25,12 @@ class player_t {
 	unsigned short port;
 
 	sf::CircleShape shape;
+	sf::Sprite sprite;
 
 	player_t(unsigned short id, float x, float y, std::string username);
 
 	void update(double delta);
+	void loadResources();
 
 };
 

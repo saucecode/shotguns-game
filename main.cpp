@@ -17,7 +17,10 @@ int main(){
 
 	Game game;
 
-	game.startNetworking();
+	if(!game.startNetworking()){
+		std::cout << "Exiting main...\n";
+		return 1;
+	}
 
 	sf::Clock deltaTimer;
 
