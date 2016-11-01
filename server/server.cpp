@@ -36,12 +36,6 @@ int main(){
 
 	if( !setupServerSocket() ) return 1;
 
-	createZombies(zombies);
-
-	for(zombie_t *zed : zombies){
-		std::cout << zed->x << " " << zed->y << "\n";
-	}
-
 
 	world = new world_t();
 	world->addElement(new solid_t{-300,100,600,32});
@@ -51,6 +45,12 @@ int main(){
 	worldDataPacket << (int) world->elements.size();
 	for(solid_t *solid : world->elements){
 		worldDataPacket << solid->x << solid->y << solid->width << solid->height;
+	}
+
+	// create zombies, print them
+	createZombies(zombies);
+	for(zombie_t *zed : zombies){
+		std::cout << zed->x << " " << zed->y << "\n";
 	}
 
 	// start networking thread
@@ -90,6 +90,15 @@ void gameLoop(){
 			sf::Packet positionPacket2;
 			positionPacket2 << PACKET_MOVE_PLAYER << player->id << player->x << player->y;
 			sendToAllExcept(positionPacket2, player->id);
+		}
+
+		for(zombie_t *zed : zombies){
+			zed->update(delta);
+
+			sf::Packet zombiePosition;
+			zombiePosition << PACKET_MOVE_ZOMBIE;
+			zombiePosition << zed->id << zed->x << zed->y;
+			sendToAll(zombiePosition);
 		}
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(20));
@@ -206,7 +215,7 @@ void networking(){
 			}else if(packetid == PACKET_WORLD_DATA){
 				player_t *target = getPlayerByAddress(client, clientPort);
 				target->hasDownloadedWorld = true;
-				
+
 			}
 		}
 	}

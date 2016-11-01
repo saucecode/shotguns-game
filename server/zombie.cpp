@@ -34,7 +34,9 @@ void zombie_t::update(float delta){
 	else
 		vx = 0;
 
-	if(onGround && keyState[sf::Keyboard::Space]){
+	//if(onGround && keyState[sf::Keyboard::Space])
+
+	// happy mode enabled
+	if(onGround)
 		vy = -10;
-	}
 }

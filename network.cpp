@@ -143,6 +143,17 @@ void Network::run(){
 					zombies->push_back(new zombie_t(id, x, y, world));
 				}
 				std::cout << "Spawned " << count << " zombies (Total " << zombies->size() << ")\n";
+
+			}else if(packetid == PACKET_MOVE_ZOMBIE){
+				unsigned short id;
+				float x, y;
+
+				packet >> id >> x >> y;
+				zombie_t *zed = getZombieByID(id);
+				if(zed != nullptr){
+					zed->x = x;
+					zed->y = y;
+				}
 				
 			}
 
@@ -158,6 +169,16 @@ player_t* Network::getPlayerByID(unsigned short id){
 
 	return nullptr;
 }
+
+zombie_t* Network::getZombieByID(unsigned short id){
+	for(zombie_t *zed : *zombies){
+		if(zed->id == id)
+			return zed;
+	}
+
+	return nullptr;
+}
+
 
 void Network::stop(){
 	// breaks selector.wait() so that the thread can exit.

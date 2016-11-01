@@ -29,6 +29,7 @@ class Network {
 
 	void run();
 	player_t* getPlayerByID(unsigned short id);
+	zombie_t* getZombieByID(unsigned short id);
 	void stop();
 	void send(sf::Packet packet);
 };
