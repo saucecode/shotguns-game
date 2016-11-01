@@ -34,9 +34,17 @@ void zombie_t::update(float delta){
 	else
 		vx = 0;
 
-	//if(onGround && keyState[sf::Keyboard::Space])
-
+	if(onGround && keyState[sf::Keyboard::Space])
 	// happy mode enabled
-	if(onGround)
+	//if(onGround)
 		vy = -10;
+
+
+	// AI - wandering
+	if(world->placeFree(x+vx*4, y+1)) direction *= -1;
+	
+	keyState[sf::Keyboard::D] = false;
+	keyState[sf::Keyboard::A] = false;
+	if(direction == 1) keyState[sf::Keyboard::D] = true;
+	if(direction == -1) keyState[sf::Keyboard::A] = true;
 }

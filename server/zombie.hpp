@@ -9,13 +9,14 @@ class zombie_t {
 	world_t *world;
 
 	public:
-	const float moveSpeed = 200;
+	const float moveSpeed = 100;
 	const float gravity = 32;
 
 	float x, y, vx=0, vy=0;
 	char direction;
 	short health;
 	unsigned short id;
+	float deltaAccumulator = 0;
 
 	bool keyState[256];
 	unsigned char keyTimers[256];
