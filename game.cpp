@@ -9,13 +9,14 @@
 #include "network.hpp"
 #include "packetid.hpp"
 #include "world.hpp"
+#include "zombie.hpp"
 
 Game::Game(){
 	const int WINDOW_WIDTH = 640;
 	const int WINDOW_HEIGHT = 480;
 	world = new world_t();
 	player = new player_t(-1, 0,0, "snowflake");
-	network = new Network("127.0.0.1", 43234, &agents, player, world);
+	network = new Network("127.0.0.1", 43234, &agents, &zombies, player, world);
 
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML works!");
 	playerView = new sf::View(sf::FloatRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -92,6 +93,13 @@ void Game::render(float delta){
 	for(player_t *agent : agents){
 		agent->shape.setPosition(agent->x, agent->y);
 		window->draw(agent->shape);
+	}
+
+	for(zombie_t *zed : zombies){
+		if(!zed->resourcesLoaded)
+			zed->loadResources();
+		zed->sprite.setPosition(zed->x, zed->y);
+		window->draw(zed->sprite);
 	}
 
 	world->drawElements(window);

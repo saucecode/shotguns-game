@@ -28,6 +28,7 @@ class player_t {
 	sf::Sprite sprite;
 
 	player_t(unsigned short id, float x, float y, std::string username);
+	~player_t();
 
 	void update(double delta);
 	void loadResources();

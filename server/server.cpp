@@ -6,21 +6,14 @@
 #include <chrono>
 #include "../packetid.hpp"
 #include "player.hpp"
+#include "zombie.hpp"
 #include "../world.hpp"
 
 unsigned short PLAYER_PACKET_ID = 3;
 unsigned short ZOMBIE_PACKET_ID = 0;
 
-typedef struct {
-	unsigned short id;
-	float x;
-	float y;
-	short health;
-	char direction;
-} zombie_t;
 
-
-std::vector<zombie_t> zombies;
+std::vector<zombie_t*> zombies;
 std::vector<player_t*> players;
 sf::UdpSocket socket;
 unsigned short SERVER_PORT = 43234;
@@ -28,7 +21,7 @@ world_t *world;
 sf::Packet worldDataPacket;
 
 
-void createZombies(std::vector<zombie_t>& zombies);
+void createZombies(std::vector<zombie_t*>& zombies);
 void gameLoop();
 void networking();
 bool setupServerSocket();
@@ -45,15 +38,13 @@ int main(){
 
 	createZombies(zombies);
 
-	for(zombie_t zed : zombies){
-		std::cout << zed.x << " " << zed.y << "\n";
+	for(zombie_t *zed : zombies){
+		std::cout << zed->x << " " << zed->y << "\n";
 	}
 
 
 	world = new world_t();
-	world->addElement(new solid_t{-100,100,200,200});
-	world->addElement(new solid_t{132,100,64,16});
-	world->addElement(new solid_t{132+64,64,64,128});
+	world->addElement(new solid_t{-300,100,600,32});
 
 	// forge PACKET_WORLD_DATA
 	worldDataPacket << PACKET_WORLD_DATA;
@@ -147,6 +138,16 @@ void networking(){
 
 				newplayer->send(worldDataPacket);
 
+
+				sf::Packet spawnZombiePacket;
+				spawnZombiePacket << PACKET_ADD_ZOMBIE << (int) zombies.size();
+
+				for(zombie_t *zed : zombies){
+					spawnZombiePacket << zed->id << zed->x << zed->y;
+				}
+
+				newplayer->send(spawnZombiePacket);
+
 			}else if(packetid == PACKET_DISCONNECT){
 				std::cout << "Disconnect received.\n";
 				int index;
@@ -205,6 +206,7 @@ void networking(){
 			}else if(packetid == PACKET_WORLD_DATA){
 				player_t *target = getPlayerByAddress(client, clientPort);
 				target->hasDownloadedWorld = true;
+				
 			}
 		}
 	}
@@ -245,10 +247,9 @@ player_t* getPlayerByAddress(sf::IpAddress addr, unsigned short port, int *index
 	return nullptr;
 }
 
-void createZombies(std::vector<zombie_t>& zombies){
-	for(int i=0; i<10; i++){
-		zombie_t zed = {ZOMBIE_PACKET_ID++, i * 20.0f, 128, 20, 1};
-		zombies.push_back(zed);
+void createZombies(std::vector<zombie_t*>& zombies){
+	for(int i=0; i<1; i++){
+		zombies.push_back(new zombie_t(ZOMBIE_PACKET_ID++, i*20.0f, -40, world));
 	}
 }
 

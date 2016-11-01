@@ -3,17 +3,20 @@
 #include "player.hpp"
 #include "world.hpp"
 
+#include "zombie.hpp"
+
 #include <SFML/Network.hpp>
 #include <string>
 #include <thread>
 #include <iostream>
 #include <exception>
 
-Network::Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, player_t *player, world_t *world){
+Network::Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, std::vector<zombie_t*> *zombies, player_t *player, world_t *world){
 	this->world = world;
 	this->host = addr;
 	this->port = port;
 	this->agents = agents;
+	this->zombies = zombies;
 	this->player = player;
 }
 
@@ -128,6 +131,19 @@ void Network::run(){
 				acknowledge << PACKET_WORLD_DATA;
 				send(acknowledge);
 
+			}else if(packetid == PACKET_ADD_ZOMBIE){
+				std::cout << "got zombie add packet\n";
+				int count;
+				packet >> count;
+				for(int i=0; i<count; i++){
+					unsigned short id;
+					float x, y;
+					packet >> id >> x >> y;
+					std::cout << "Got zombie " << id << " " << x << " " << y << "\n";
+					zombies->push_back(new zombie_t(id, x, y, world));
+				}
+				std::cout << "Spawned " << count << " zombies (Total " << zombies->size() << ")\n";
+				
 			}
 
 		}

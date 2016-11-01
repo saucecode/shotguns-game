@@ -6,6 +6,7 @@
 #include <vector>
 
 class player_t;
+class zombie_t;
 class Network;
 class world_t;
 
@@ -13,6 +14,7 @@ class Game {
 
 	private:
 	std::vector<player_t*> agents;
+	std::vector<zombie_t*> zombies;
 
 	public:
 	Game();

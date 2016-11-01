@@ -16,6 +16,11 @@ player_t::player_t(unsigned short id, float x, float y, std::string username){
 	shape.setOrigin(x + shape.getRadius(),y + shape.getRadius()*2);
 }
 
+player_t::~player_t(){
+	if(characterTexture != nullptr)
+		delete characterTexture;
+}
+
 void player_t::loadResources(){
 	if(resourcesLoaded) return;
 
