@@ -26,8 +26,11 @@ class Game {
 
 	sf::RenderWindow *window;
 	sf::View *playerView;
+	sf::Font primaryFont;
 	player_t *player;
 	Network *network;
+
+	sf::Text latencyDisplayText;
 
 	bool focused = false;
 	std::thread *networkThread;

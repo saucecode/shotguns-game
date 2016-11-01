@@ -21,6 +21,7 @@ class Network {
 
 	public:
 	bool running = true;
+	float latency = 0; // measured in seconds
 
 	Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, std::vector<zombie_t*> *zombies, player_t *player, world_t *world);
 

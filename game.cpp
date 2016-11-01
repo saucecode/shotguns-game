@@ -17,7 +17,7 @@ Game::Game(){
 	const int WINDOW_HEIGHT = 480;
 	world = new world_t();
 	player = new player_t(-1, 0,0, "snowflake");
-	network = new Network("127.0.0.1", 43234, &agents, &zombies, player, world);
+	network = new Network("insecure.gq", 43234, &agents, &zombies, player, world);
 
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML works!");
 	playerView = new sf::View(sf::FloatRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -27,6 +27,13 @@ Game::Game(){
 	//window->setVerticalSyncEnabled(true);
 	window->setFramerateLimit(60);
 
+	if(!primaryFont.loadFromFile("res/kenpixel_mini.ttf"))
+		std::cout << "Failed to load font\n";
+
+	latencyDisplayText.setFont(primaryFont);
+	latencyDisplayText.setString("Latency: ?");
+	latencyDisplayText.setColor(sf::Color::White);
+	latencyDisplayText.setCharacterSize(16);
 }
 
 bool Game::startNetworking(){
@@ -104,6 +111,13 @@ void Game::render(float delta){
 	}
 
 	world->drawElements(window);
+
+	latencyDisplayText.setString("Latency: " + std::to_string(network->latency*1000) + "ms");
+	latencyDisplayText.setPosition(
+			playerView->getCenter().x - playerView->getSize().x/2,
+			playerView->getCenter().y - playerView->getSize().y/2
+	);
+	window->draw(latencyDisplayText);
 
 	window->display();
 	// std::this_thread::sleep_for(std::chrono::milliseconds(10));

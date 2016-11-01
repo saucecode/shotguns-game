@@ -133,14 +133,12 @@ void Network::run(){
 				send(acknowledge);
 
 			}else if(packetid == PACKET_ADD_ZOMBIE){
-				std::cout << "got zombie add packet\n";
 				int count;
 				packet >> count;
 				for(int i=0; i<count; i++){
 					unsigned short id;
 					float x, y;
 					packet >> id >> x >> y;
-					std::cout << "Got zombie " << id << " " << x << " " << y << "\n";
 					zombies->push_back(new zombie_t(id, x, y, world));
 				}
 				std::cout << "Spawned " << count << " zombies (Total " << zombies->size() << ")\n";
@@ -155,6 +153,13 @@ void Network::run(){
 					zed->x = x;
 					zed->y = y;
 				}
+
+			}else if(packetid == PACKET_PINGAZ){
+				int counter;
+				packet >> counter >> this->latency;
+
+				send(packet);
+				std::cout << "Got ping - determined latency is " << this->latency * 1000 << "ms\n";
 
 			}
 

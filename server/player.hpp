@@ -21,6 +21,10 @@ class player_t {
 	std::string username;
 	bool hasDownloadedWorld = false;
 
+	int pingTicker = 0;
+	float latency = 0; // seconds
+	sf::Clock pingClock;
+
 	bool keyState[256];
 	unsigned char keyTimers[256];
 

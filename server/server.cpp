@@ -77,6 +77,8 @@ void gameLoop(){
 		if(seconds >= 1.0){
 			secondPassed = true;
 			seconds = 0;
+		}else{
+			secondPassed = false;
 		}
 
 		for(player_t *player : players){
@@ -92,6 +94,14 @@ void gameLoop(){
 			sf::Packet positionPacket2;
 			positionPacket2 << PACKET_MOVE_PLAYER << player->id << player->x << player->y;
 			sendToAllExcept(positionPacket2, player->id);
+
+			// send PINGAZ packet every second
+			if(secondPassed){
+				sf::Packet pingPacket;
+				pingPacket << PACKET_PINGAZ << player->pingTicker++ << player->latency;
+				player->pingClock.restart();
+				player->send(pingPacket);
+			}
 		}
 
 		for(zombie_t *zed : zombies){
@@ -217,6 +227,17 @@ void networking(){
 			}else if(packetid == PACKET_WORLD_DATA){
 				player_t *target = getPlayerByAddress(client, clientPort);
 				target->hasDownloadedWorld = true;
+
+			}else if(packetid == PACKET_PINGAZ){
+				player_t *target = getPlayerByAddress(client, clientPort);
+				int packetCount;
+				packet >> packetCount;
+
+				if(packetCount == target->pingTicker-1){
+					target->latency = target->pingClock.restart().asSeconds();
+					std::cout << "Player " << target->id << " has ping " <<
+						target->latency*1000 << "ms\n";
+				}
 
 			}
 		}
