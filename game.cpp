@@ -1,7 +1,8 @@
 
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
+
+#include <iostream>
 #include <thread>
 
 #include "game.hpp"

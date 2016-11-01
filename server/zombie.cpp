@@ -1,6 +1,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
+
 #include "zombie.hpp"
 #include "../world.hpp"
 
@@ -41,8 +42,8 @@ void zombie_t::update(float delta){
 
 
 	// AI - wandering
-	if(world->placeFree(x+vx*4, y+1)) direction *= -1;
-	
+	if(world->placeFree(x+vx*4, y+1)) direction *= -1; // change heading when reaching an edge
+
 	keyState[sf::Keyboard::D] = false;
 	keyState[sf::Keyboard::A] = false;
 	if(direction == 1) keyState[sf::Keyboard::D] = true;

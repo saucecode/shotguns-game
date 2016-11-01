@@ -2,8 +2,8 @@
 #define _SAUCECODE_SHOTGUN_NETWORK_HPP
 
 #include <SFML/Network.hpp>
+
 #include <thread>
-#include <mutex>
 
 class player_t;
 class world_t;

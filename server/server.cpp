@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
+
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <chrono>
+
 #include "../packetid.hpp"
 #include "player.hpp"
 #include "zombie.hpp"

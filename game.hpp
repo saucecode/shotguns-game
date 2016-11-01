@@ -2,6 +2,7 @@
 #define _SAUCECODE_SHOTGUN_MAINGAME_HPP
 
 #include <SFML/Graphics.hpp>
+
 #include <thread>
 #include <vector>
 

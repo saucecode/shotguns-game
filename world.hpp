@@ -1,8 +1,9 @@
 #ifndef _SAUCECODE_SHOTGUN_WORLD_HPP
 #define _SAUCECODE_SHOTGUN_WORLD_HPP
 
-#include <vector>
 #include <SFML/Graphics.hpp>
+
+#include <vector>
 
 typedef struct {
 	float x;

@@ -1,15 +1,16 @@
-#include "network.hpp"
-#include "packetid.hpp"
-#include "player.hpp"
-#include "world.hpp"
-
-#include "zombie.hpp"
 
 #include <SFML/Network.hpp>
+
 #include <string>
 #include <thread>
 #include <iostream>
 #include <exception>
+
+#include "network.hpp"
+#include "packetid.hpp"
+#include "player.hpp"
+#include "world.hpp"
+#include "zombie.hpp"
 
 Network::Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, std::vector<zombie_t*> *zombies, player_t *player, world_t *world){
 	this->world = world;
@@ -154,7 +155,7 @@ void Network::run(){
 					zed->x = x;
 					zed->y = y;
 				}
-				
+
 			}
 
 		}

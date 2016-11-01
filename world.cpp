@@ -1,5 +1,7 @@
-#include "world.hpp"
+
 #include <SFML/Graphics.hpp>
+
+#include "world.hpp"
 
 world_t::world_t(){
 

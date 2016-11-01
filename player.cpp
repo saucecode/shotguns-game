@@ -1,7 +1,10 @@
-#include "player.hpp"
+
+#include <SFML/Graphics.hpp>
+
 #include <string>
 #include <iostream>
-#include <SFML/Graphics.hpp>
+
+#include "player.hpp"
 
 player_t::player_t(unsigned short id, float x, float y, std::string username){
 	this->id = id;

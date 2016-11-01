@@ -1,4 +1,6 @@
+
 #include <SFML/Graphics.hpp>
+
 #include <vector>
 #include <string>
 #include <thread>
@@ -7,7 +9,6 @@
 
 #include "network.hpp"
 #include "packetid.hpp"
-
 #include "player.hpp"
 #include "game.hpp"
 
