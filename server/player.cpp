@@ -18,27 +18,27 @@ player_t::player_t(unsigned short id, float x, float y, std::string username,
 
 void player_t::update(float delta){
 	if(keyState[sf::Keyboard::A])
-		vx = -moveSpeed * delta;
+		vx = -moveSpeed;
 	if(keyState[sf::Keyboard::D])
-		vx = moveSpeed * delta;
+		vx = moveSpeed;
 
 	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]) vx *= 0.75;
 
 	vy += gravity * delta;
 
-	bool onGround = !world->placeFree(x, y + vy);
+	bool onGround = !world->placeFree(x, y + vy*delta);
 
 	if(!onGround)
-		y += vy;
+		y += vy*delta;
 	else
 		vy = 0;
-	if(world->placeFree(x + vx, y))
-		x += vx;
+	if(world->placeFree(x + vx*delta, y))
+		x += vx*delta;
 	else
 		vx = 0;
 
 	if(onGround && keyState[sf::Keyboard::Space]){
-		vy = -10;
+		vy = -450; // jump_velocity = sqrt(2 * gravity * maximum_height)
 	}
 }
 

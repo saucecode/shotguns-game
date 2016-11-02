@@ -12,7 +12,7 @@ class player_t {
 
 	public:
 	const float moveSpeed = 200;
-	const float gravity = 32;
+	const float gravity = 981;
 
 	float x, y, vx=0, vy=0;
 	char direction;
