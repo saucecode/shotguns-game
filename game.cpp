@@ -89,6 +89,8 @@ void Game::update(float delta){
 		network->send(keyStateBlob);
 	}
 
+	player->update(delta);
+
 	if(byteCounterClock.getElapsedTime().asSeconds() > 0.25){
 		byteCounterClock.restart();
 		network->DISP_TX = network->LAST_TX * 4;
