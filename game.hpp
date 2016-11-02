@@ -27,6 +27,9 @@ class Game {
 	sf::RenderWindow *window;
 	sf::View *playerView;
 	sf::Font primaryFont;
+
+	sf::Texture spriteSheet;
+
 	sf::Clock byteCounterClock;
 	player_t *player;
 	Network *network;

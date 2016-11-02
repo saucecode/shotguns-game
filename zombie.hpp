@@ -27,7 +27,7 @@ class zombie_t {
 	zombie_t(unsigned short id, float x, float y, world_t *world);
 	~zombie_t();
 	void update(float delta);
-	void loadResources();
+	void loadResources(sf::Texture *spriteSheet);
 };
 
 #endif

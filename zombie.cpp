@@ -47,29 +47,11 @@ void zombie_t::update(float delta){
 	}
 }
 
-void zombie_t::loadResources(){
+void zombie_t::loadResources(sf::Texture *spriteSheet){
 	if(resourcesLoaded) return;
 
-	/*
-		NOTE:
-		This code used to be in the constructor.
-		When players joined, player_t constructor is called
-		from the network thread, and it attempts to load the
-		textures.
-
-		This crashes the client! Load resources in the render
-		thread!
-	*/
-
-	if(characterTexture == nullptr){
-		characterTexture = new sf::Texture();
-		if(!characterTexture->loadFromFile("res/zombie.png")){
-			std::cout << "FUUUUCK\n";
-		}
-	}
-
-	sprite.setTexture(*characterTexture);
-	sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
+	sprite.setTexture(*spriteSheet);
+	sprite.setTextureRect(sf::IntRect(17, 8*17, 16, 16));
 	sprite.setOrigin(8,16);
 	sprite.setScale(sf::Vector2f(2,2));
 	resourcesLoaded = true;

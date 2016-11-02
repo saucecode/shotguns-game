@@ -31,7 +31,7 @@ class player_t {
 	~player_t();
 
 	void update(double delta);
-	void loadResources();
+	void loadResources(sf::Texture *spriteSheet);
 
 };
 

@@ -34,6 +34,12 @@ Game::Game(){
 	latencyDisplayText.setString("Latency: ?");
 	latencyDisplayText.setColor(sf::Color::White);
 	latencyDisplayText.setCharacterSize(16);
+
+	if(!spriteSheet.loadFromFile("res/roguelikeChar_transparent.png")){
+		std::cout << "Failed to load spritesheet\n";
+	}
+
+	player->loadResources(&spriteSheet);
 }
 
 bool Game::startNetworking(){
@@ -101,7 +107,7 @@ void Game::render(float delta){
 	//player->shape.setPosition(player->x, player->y);
 	//window->draw(player->shape);
 	if(!player->resourcesLoaded)
-		player->loadResources();
+		player->loadResources(&spriteSheet);
 	player->sprite.setPosition(player->x, player->y);
 	window->draw(player->sprite);
 
@@ -112,21 +118,26 @@ void Game::render(float delta){
 
 	for(zombie_t *zed : zombies){
 		if(!zed->resourcesLoaded)
-			zed->loadResources();
+			zed->loadResources(&spriteSheet);
 		zed->sprite.setPosition(zed->x, zed->y);
 		window->draw(zed->sprite);
 	}
 
 	world->drawElements(window);
 
+
 	latencyDisplayText.setString("Latency: " + std::to_string((int)(network->latency*1000)) + "ms\n"
 		+ "Download: " + std::to_string(network->DISP_TX/1000.0) + "kB/s\n"
-		+ "Upload:   " + std::to_string(network->DISP_RX/1000.0) + "kB/s\n");
+		+ "Upload:   " + std::to_string(network->DISP_RX/1000.0) + "kB/s\n"
+	);
+
 	latencyDisplayText.setPosition(
 			playerView->getCenter().x - playerView->getSize().x/2,
 			playerView->getCenter().y - playerView->getSize().y/2
 	);
+
 	window->draw(latencyDisplayText);
+
 
 	window->display();
 	// std::this_thread::sleep_for(std::chrono::milliseconds(10));
