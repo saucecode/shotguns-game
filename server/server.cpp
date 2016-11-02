@@ -280,7 +280,7 @@ player_t* getPlayerByAddress(sf::IpAddress addr, unsigned short port, int *index
 }
 
 void createZombies(std::vector<zombie_t*>& zombies){
-	for(int i=0; i<1; i++){
+	for(int i=0; i<8; i++){
 		zombies.push_back(new zombie_t(ZOMBIE_PACKET_ID++, i*20.0f, -40, world));
 	}
 }
