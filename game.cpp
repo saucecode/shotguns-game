@@ -127,8 +127,8 @@ void Game::render(float delta){
 
 
 	latencyDisplayText.setString("Latency: " + std::to_string((int)(network->latency*1000)) + "ms\n"
-		+ "Download: " + std::to_string(network->DISP_TX/1000.0) + "kB/s\n"
-		+ "Upload:   " + std::to_string(network->DISP_RX/1000.0) + "kB/s\n"
+		+ "Download: " + std::to_string(network->DISP_RX/1000.0) + "kB/s\n"
+		+ "Upload:   " + std::to_string(network->DISP_TX/1000.0) + "kB/s\n"
 	);
 
 	latencyDisplayText.setPosition(
