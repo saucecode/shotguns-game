@@ -54,6 +54,8 @@ bool Network::connect(std::string username) {
 
 void Network::send(sf::Packet packet){
 	socket.send(packet, host, port);
+	TX += packet.getDataSize();
+	LAST_TX += packet.getDataSize();
 }
 
 void Network::run(){
@@ -71,6 +73,9 @@ void Network::run(){
 				std::cout << "Got rogue packet from " << packetAddr << ":" << packetPort << "\n";
 				continue;
 			}
+
+			RX += packet.getDataSize();
+			LAST_RX += packet.getDataSize();
 
 			unsigned char packetid;
 			packet >> packetid;
@@ -159,7 +164,7 @@ void Network::run(){
 				packet >> counter >> this->latency;
 
 				send(packet);
-				std::cout << "Got ping - determined latency is " << this->latency * 1000 << "ms\n";
+				// std::cout << "Got ping - determined latency is " << this->latency * 1000 << "ms\n";
 
 			}
 

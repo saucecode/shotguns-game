@@ -17,7 +17,7 @@ Game::Game(){
 	const int WINDOW_HEIGHT = 480;
 	world = new world_t();
 	player = new player_t(-1, 0,0, "snowflake");
-	network = new Network("insecure.gq", 43234, &agents, &zombies, player, world);
+	network = new Network("127.0.0.1", 43234, &agents, &zombies, player, world);
 
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML works!");
 	playerView = new sf::View(sf::FloatRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -83,6 +83,13 @@ void Game::update(float delta){
 		network->send(keyStateBlob);
 	}
 
+	if(byteCounterClock.getElapsedTime().asSeconds() > 0.25){
+		byteCounterClock.restart();
+		network->DISP_TX = network->LAST_TX * 4;
+		network->DISP_RX = network->LAST_RX * 4;
+		network->LAST_RX = 0;
+		network->LAST_TX = 0;
+	}
 }
 
 void Game::render(float delta){
@@ -112,7 +119,9 @@ void Game::render(float delta){
 
 	world->drawElements(window);
 
-	latencyDisplayText.setString("Latency: " + std::to_string(network->latency*1000) + "ms");
+	latencyDisplayText.setString("Latency: " + std::to_string(network->latency*1000) + "ms\n"
+		+ "Download: " + std::to_string(network->DISP_TX/1000.0) + "kB/s\n"
+		+ "Upload:   " + std::to_string(network->DISP_RX/1000.0) + "kB/s\n");
 	latencyDisplayText.setPosition(
 			playerView->getCenter().x - playerView->getSize().x/2,
 			playerView->getCenter().y - playerView->getSize().y/2

@@ -23,6 +23,11 @@ class Network {
 	bool running = true;
 	float latency = 0; // measured in seconds
 
+	// measured in bytes - LAST_*X is reset per second
+	unsigned long long TX = 0, RX = 0;
+	unsigned long long DISP_TX = 0, DISP_RX = 0;
+	unsigned long long LAST_TX=0, LAST_RX = 0;
+
 	Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, std::vector<zombie_t*> *zombies, player_t *player, world_t *world);
 
 	bool connect(std::string username);
