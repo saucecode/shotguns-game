@@ -34,7 +34,14 @@ void player_t::loadResources(sf::Texture *spriteSheet){
 }
 
 void player_t::update(double delta){
-	x += vx;
-	y += vy;
+	if(keyState[sf::Keyboard::A])
+		vx = -moveSpeed;
+	if(keyState[sf::Keyboard::D])
+		vx = moveSpeed;
+
+	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]) vx *= 0.75;
+
+	x += vx * delta;
+	y += vy * delta;
 
 }
