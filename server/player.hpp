@@ -15,6 +15,7 @@ class player_t {
 	const float gravity = 981;
 
 	float x, y, vx=0, vy=0;
+	float lastSentX=0, lastSentY=0;
 	char direction;
 	short health;
 	unsigned short id;

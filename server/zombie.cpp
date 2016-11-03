@@ -44,7 +44,7 @@ void zombie_t::update(float delta){
 	// AI - wandering
 	if(world->placeFree(x+vx*delta*4, y+1)){
 		direction *= -1; // change heading when reaching an edge
-		if(onGround) vy = -450; // just for fun
+		// if(onGround) vy = -450; // just for fun
 	}
 
 	keyState[sf::Keyboard::D] = false;

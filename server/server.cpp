@@ -87,13 +87,19 @@ void gameLoop(){
 			if(!player->hasDownloadedWorld && secondPassed)
 				player->send(worldDataPacket);
 
-			sf::Packet packetPosition;
-			packetPosition << PACKET_MOVE_PLAYER << (unsigned short) -1 << player->x << player->y;
-			player->send(packetPosition);
 
-			sf::Packet positionPacket2;
-			positionPacket2 << PACKET_MOVE_PLAYER << player->id << player->x << player->y;
-			sendToAllExcept(positionPacket2, player->id);
+			if(player->x != player->lastSentX || player->y != player->lastSentY){
+				sf::Packet packetPosition;
+				packetPosition << PACKET_MOVE_PLAYER << (unsigned short) -1 << player->x << player->y;
+				player->send(packetPosition);
+
+				sf::Packet positionPacket2;
+				positionPacket2 << PACKET_MOVE_PLAYER << player->id << player->x << player->y;
+				sendToAllExcept(positionPacket2, player->id);
+				
+				player->lastSentX = player->x;
+				player->lastSentY = player->y;
+			}
 
 			// send PINGAZ packet every second
 			if(secondPassed){
@@ -235,8 +241,8 @@ void networking(){
 
 				if(packetCount == target->pingTicker-1){
 					target->latency = target->pingClock.restart().asSeconds();
-					std::cout << "Player " << target->id << " has ping " <<
-						target->latency*1000 << "ms\n";
+					//std::cout << "Player " << target->id << " has ping " <<
+					//	target->latency*1000 << "ms\n";
 				}
 
 			}
