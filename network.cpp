@@ -86,7 +86,7 @@ void Network::run(){
 
 				packet >> id >> name;
 
-				agents->push_back(new player_t(id, 0, 0, name));
+				agents->push_back(new player_t(id, 0, 0, name, world));
 				std::cout << "Added player " << id << " named " << name << "\n";
 
 			}else if(packetid == PACKET_DROP_PLAYER){

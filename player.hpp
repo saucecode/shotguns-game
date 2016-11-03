@@ -4,6 +4,8 @@
 #include <SFML/Network.hpp>
 #include <SFML/Graphics.hpp>
 
+class world_t;
+
 class player_t {
 	public:
 
@@ -29,7 +31,9 @@ class player_t {
 	sf::CircleShape shape;
 	sf::Sprite sprite;
 
-	player_t(unsigned short id, float x, float y, std::string username);
+	world_t *world;
+
+	player_t(unsigned short id, float x, float y, std::string username, world_t *world);
 	~player_t();
 
 	void update(double delta);

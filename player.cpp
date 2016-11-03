@@ -5,14 +5,16 @@
 #include <iostream>
 
 #include "player.hpp"
+#include "world.hpp"
 
-player_t::player_t(unsigned short id, float x, float y, std::string username){
+player_t::player_t(unsigned short id, float x, float y, std::string username, world_t *world){
 	this->id = id;
 	this->x = x;
 	this->y = y;
 	this->vx = 0;
 	this->vy = 0;
 	this->username = username;
+	this->world = world;
 
 	shape = sf::CircleShape(8.0f);
 	shape.setFillColor(sf::Color::White);
@@ -41,7 +43,18 @@ void player_t::update(double delta){
 
 	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]) vx *= 0.75;
 
-	x += vx * delta;
-	y += vy * delta;
+	bool onGround = !world->placeFree(x, y + vy*delta);
 
+	if(!onGround)
+		y += vy*delta;
+	else
+		vy = 0;
+	if(world->placeFree(x + vx*delta, y))
+		x += vx*delta;
+	else
+		vx = 0;
+
+	if(onGround && keyState[sf::Keyboard::Space]){
+		vy = -450; // jump_velocity = sqrt(2 * gravity * maximum_height)
+	}
 }

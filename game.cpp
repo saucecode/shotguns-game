@@ -16,7 +16,7 @@ Game::Game(){
 	const int WINDOW_WIDTH = 640;
 	const int WINDOW_HEIGHT = 480;
 	world = new world_t();
-	player = new player_t(-1, 0,0, "snowflake");
+	player = new player_t(-1, 0,0, "snowflake", world);
 	network = new Network("127.0.0.1", 43234, &agents, &zombies, player, world);
 
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML works!");
