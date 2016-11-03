@@ -26,7 +26,7 @@ void player_t::update(float delta){
 
 	vy += gravity * delta;
 
-	bool onGround = !world->placeFree(x, y + vy*delta);
+	bool onGround = !world->placeFree(x, y + vy*delta + 0.05);
 
 	if(!onGround)
 		y += vy*delta;

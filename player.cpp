@@ -43,7 +43,7 @@ void player_t::update(double delta){
 
 	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]) vx *= 0.75;
 
-	bool onGround = !world->placeFree(x, y + vy*delta);
+	bool onGround = !world->placeFree(x, y + vy*delta + 0.05);
 
 	if(!onGround)
 		y += vy*delta;
