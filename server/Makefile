@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -std=c++11
+CFLAGS=-c -std=c++11 -g
 LDFLAGS=-lsfml-graphics -lsfml-network -lsfml-system -pthread
 WFLAGS=-Wall
 SOURCES=player.cpp server.cpp zombie.cpp ../world.cpp
