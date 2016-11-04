@@ -2,16 +2,25 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 
-#include "player.hpp"
-#include "../world.hpp"
+#include <vector>
+#include <iostream>
 
-player_t::player_t(unsigned short id, float x, float y, std::string username,
-		world_t *world){
-	this->id = id;
+#include "player.hpp"
+#include "zombie.hpp"
+#include "../world.hpp"
+#include "weapon.hpp"
+#include "../packetid.hpp"
+#include "gamestate.hpp"
+
+unsigned short player_t::PLAYER_ID = 0;
+
+player_t::player_t(gamestate_t *gamestate, float x, float y, std::string username){
+	this->id = player_t::PLAYER_ID++;
 	this->x = x;
 	this->y = y;
 	this->username = username;
-	this->world = world;
+	this->gamestate = gamestate;
+	this->weapon = Weapon::shotgun;
 
 	direction = 1;
 }
@@ -26,13 +35,13 @@ void player_t::update(float delta){
 
 	vy += gravity * delta;
 
-	bool onGround = !world->placeFree(x, y + vy*delta + 0.05);
+	bool onGround = !gamestate->world->placeFree(x, y + vy*delta + 0.05);
 
 	if(!onGround)
 		y += vy*delta;
 	else
 		vy = 0;
-	if(world->placeFree(x + vx*delta, y))
+	if(gamestate->world->placeFree(x + vx*delta, y))
 		x += vx*delta;
 	else
 		vx = 0;
@@ -40,6 +49,22 @@ void player_t::update(float delta){
 	if(onGround && keyState[sf::Keyboard::Space]){
 		vy = -450; // jump_velocity = sqrt(2 * gravity * maximum_height)
 	}
+
+	if(mouseState[sf::Mouse::Left] && canShoot <= 0.0){
+		shoot();
+	}
+	if(canShoot > 0.0) canShoot -= delta;
+}
+
+void player_t::shoot(){
+	canShoot = weapon.shootDelay;
+
+	zombie_t *zed = new zombie_t(x, y, gamestate->world);
+	gamestate->zombies->push_back(zed);
+
+	sf::Packet spawnZombiePacket;
+	spawnZombiePacket << PACKET_ADD_ZOMBIE << (int) 1 << zed->id << zed->x << zed->y;
+	send(spawnZombiePacket);
 }
 
 void player_t::setAddress(sf::UdpSocket *socket, sf::IpAddress addr, unsigned short port){

@@ -3,12 +3,17 @@
 
 #include <SFML/Network.hpp>
 
+#include "weapon.hpp"
+#include "gamestate.hpp"
+
 class world_t;
+class zombie_t;
 
 class player_t {
 	private:
 	sf::UdpSocket *socket;
-	world_t *world;
+	
+	static unsigned short PLAYER_ID;
 
 	public:
 	const float moveSpeed = 200;
@@ -20,6 +25,11 @@ class player_t {
 	short health;
 	unsigned short id;
 	std::string username;
+	gamestate_t *gamestate;
+
+	weapon_t weapon;
+	float canShoot = 0; // seconds
+
 	bool hasDownloadedWorld = false;
 
 	int pingTicker = 0;
@@ -34,9 +44,9 @@ class player_t {
 	unsigned short port;
 
 
-	player_t(unsigned short id, float x, float y, std::string username,
-		world_t *world);
+	player_t(gamestate_t *gamestate, float x, float y, std::string username);
 	void update(float delta);
+	void shoot();
 	void setAddress(sf::UdpSocket *socket, sf::IpAddress addr, unsigned short port);
 	void send(sf::Packet packet);
 };
