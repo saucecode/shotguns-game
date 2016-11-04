@@ -76,15 +76,24 @@ void Game::update(float delta){
 		for(int i=0; i<256; i++){
 			player->keyState[i] = sf::Keyboard::isKeyPressed(sf::Keyboard::Key(i));
 		}
+		player->mouseState[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+		player->mouseState[1] = sf::Mouse::isButtonPressed(sf::Mouse::Right);
 
 		// generate keyboard snapshot blob
 		sf::Packet keyStateBlob;
 		keyStateBlob << PACKET_KEY_STATE;
+
 		keyStateBlob << player->keyState[sf::Keyboard::W];
 		keyStateBlob << player->keyState[sf::Keyboard::A];
 		keyStateBlob << player->keyState[sf::Keyboard::S];
 		keyStateBlob << player->keyState[sf::Keyboard::D];
 		keyStateBlob << player->keyState[sf::Keyboard::Space];
+		keyStateBlob << player->keyState[sf::Keyboard::Q];
+		keyStateBlob << player->keyState[sf::Keyboard::E];
+		keyStateBlob << player->keyState[sf::Keyboard::F];
+
+		keyStateBlob << player->mouseState[0];
+		keyStateBlob << player->mouseState[1];
 
 		network->send(keyStateBlob);
 	}

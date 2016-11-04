@@ -22,7 +22,9 @@ const unsigned char PACKET_CONNECT = 0,
 	4  <space>
 	5  Q
 	6  E
-	7  R
+	7  F
+	8  <LMB>
+	9  <RMB>
 	...
 	11 ??!?
 */

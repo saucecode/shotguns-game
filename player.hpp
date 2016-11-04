@@ -21,6 +21,7 @@ class player_t {
 	unsigned short id;
 	std::string username;
 	bool keyState[256];
+	bool mouseState[2];
 	unsigned char keyTimers[256];
 
 	bool networkKeyState[12];

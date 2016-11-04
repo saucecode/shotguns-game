@@ -27,6 +27,7 @@ class player_t {
 	sf::Clock pingClock;
 
 	bool keyState[256];
+	bool mouseState[2];
 	unsigned char keyTimers[256];
 
 	sf::IpAddress addr;

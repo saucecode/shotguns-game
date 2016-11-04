@@ -96,7 +96,7 @@ void gameLoop(){
 				sf::Packet positionPacket2;
 				positionPacket2 << PACKET_MOVE_PLAYER << player->id << player->x << player->y;
 				sendToAllExcept(positionPacket2, player->id);
-				
+
 				player->lastSentX = player->x;
 				player->lastSentY = player->y;
 			}
@@ -220,15 +220,12 @@ void networking(){
 				packet >> target->keyState[sf::Keyboard::S];
 				packet >> target->keyState[sf::Keyboard::D];
 				packet >> target->keyState[sf::Keyboard::Space];
+				packet >> target->keyState[sf::Keyboard::Q];
+				packet >> target->keyState[sf::Keyboard::E];
+				packet >> target->keyState[sf::Keyboard::F];
 
-				/*
-				// MATRIX MODE!
-				std::cout << target->keyState[sf::Keyboard::W] << " " <<
-				target->keyState[sf::Keyboard::A] << " " <<
-				target->keyState[sf::Keyboard::S] << " " <<
-				target->keyState[sf::Keyboard::D] << " " <<
-				target->keyState[sf::Keyboard::Space] << "\n";
-				*/
+				packet >> target->mouseState[0];
+				packet >> target->mouseState[1];
 
 			}else if(packetid == PACKET_WORLD_DATA){
 				player_t *target = getPlayerByAddress(client, clientPort);
