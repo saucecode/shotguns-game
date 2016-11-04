@@ -12,7 +12,7 @@ class zombie_t;
 class player_t {
 	private:
 	sf::UdpSocket *socket;
-	
+
 	static unsigned short PLAYER_ID;
 
 	public:
@@ -38,6 +38,7 @@ class player_t {
 
 	bool keyState[256];
 	bool mouseState[2];
+	short mousePosition[2];
 	unsigned char keyTimers[256];
 
 	sf::IpAddress addr;

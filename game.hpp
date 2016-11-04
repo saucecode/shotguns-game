@@ -16,6 +16,8 @@ class Game {
 	private:
 	std::vector<player_t*> agents;
 	std::vector<zombie_t*> zombies;
+	const int WINDOW_WIDTH = 640;
+	const int WINDOW_HEIGHT = 480;
 
 	public:
 	Game();

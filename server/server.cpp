@@ -228,6 +228,8 @@ void networking(){
 
 				packet >> target->mouseState[0];
 				packet >> target->mouseState[1];
+				packet >> target->mousePosition[0];
+				packet >> target->mousePosition[1];
 
 			}else if(packetid == PACKET_WORLD_DATA){
 				player_t *target = getPlayerByAddress(client, clientPort);

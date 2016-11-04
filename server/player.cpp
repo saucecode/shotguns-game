@@ -59,11 +59,12 @@ void player_t::update(float delta){
 void player_t::shoot(){
 	canShoot = weapon.shootDelay;
 
-	zombie_t *zed = new zombie_t(gamestate, x, y);
+	zombie_t *zed = new zombie_t(gamestate, mousePosition[0], mousePosition[1]);
 	gamestate->zombies->push_back(zed);
 
 	sf::Packet spawnZombiePacket;
 	spawnZombiePacket << PACKET_ADD_ZOMBIE << (int) 1 << zed->id << zed->x << zed->y;
+	std::cout << zed->x << " " << zed->y << "\n";
 	send(spawnZombiePacket);
 }
 

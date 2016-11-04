@@ -13,8 +13,6 @@
 #include "zombie.hpp"
 
 Game::Game(){
-	const int WINDOW_WIDTH = 640;
-	const int WINDOW_HEIGHT = 480;
 	world = new world_t();
 	player = new player_t(-1, 0,0, "snowflake", world);
 	network = new Network("127.0.0.1", 43234, &agents, &zombies, player, world);
@@ -79,6 +77,10 @@ void Game::update(float delta){
 		player->mouseState[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 		player->mouseState[1] = sf::Mouse::isButtonPressed(sf::Mouse::Right);
 
+		sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+		player->mousePosition[0] = (short) (mousePosition.x + (int) player->x - WINDOW_WIDTH/2);
+		player->mousePosition[1] = (short) (mousePosition.y + (int) player->y - WINDOW_HEIGHT/2);
+
 		// generate keyboard snapshot blob
 		sf::Packet keyStateBlob;
 		keyStateBlob << PACKET_KEY_STATE;
@@ -94,6 +96,8 @@ void Game::update(float delta){
 
 		keyStateBlob << player->mouseState[0];
 		keyStateBlob << player->mouseState[1];
+		keyStateBlob << player->mousePosition[0];
+		keyStateBlob << player->mousePosition[1];
 
 		network->send(keyStateBlob);
 	}
@@ -120,6 +124,9 @@ void Game::render(float delta){
 	if(!player->resourcesLoaded)
 		player->loadResources(&spriteSheet);
 	player->sprite.setPosition(player->x, player->y);
+	window->draw(player->sprite);
+
+	player->sprite.setPosition(player->mousePosition[0], player->mousePosition[1]);
 	window->draw(player->sprite);
 
 	for(player_t *agent : agents){
