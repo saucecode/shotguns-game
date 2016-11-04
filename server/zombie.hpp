@@ -1,12 +1,13 @@
 #ifndef _SAUCECODE_SHOTGUN_SERVER_ZOMBIE_HPP
 #define _SAUCECODE_SHOTGUN_SERVER_ZOMBIE_HPP
 
+#include "gamestate.hpp"
+
 class world_t;
 
 class zombie_t {
 	private:
 	sf::UdpSocket *socket;
-	world_t *world;
 
 	static unsigned short ZOMBIE_ID;
 
@@ -20,10 +21,12 @@ class zombie_t {
 	unsigned short id;
 	float deltaAccumulator = 0;
 
+	gamestate_t *gamestate;
+
 	bool keyState[256];
 	unsigned char keyTimers[256];
 
-	zombie_t(float x, float y, world_t *world);
+	zombie_t(gamestate_t *gamestate, float x, float y);
 	void update(float delta);
 };
 

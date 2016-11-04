@@ -7,11 +7,11 @@
 
 unsigned short zombie_t::ZOMBIE_ID = 0;
 
-zombie_t::zombie_t(float x, float y, world_t *world){
+zombie_t::zombie_t(gamestate_t *gamestate, float x, float y){
 	this->id = zombie_t::ZOMBIE_ID++;
 	this->x = x;
 	this->y = y;
-	this->world = world;
+	this->gamestate = gamestate;
 
 	direction = 1;
 }
@@ -26,13 +26,13 @@ void zombie_t::update(float delta){
 
 	vy += gravity * delta;
 
-	bool onGround = !world->placeFree(x, y + vy*delta);
+	bool onGround = !gamestate->world->placeFree(x, y + vy*delta);
 
 	if(!onGround)
 		y += vy * delta;
 	else
 		vy = 0;
-	if(world->placeFree(x + vx*delta, y))
+	if(gamestate->world->placeFree(x + vx*delta, y))
 		x += vx * delta;
 	else
 		vx = 0;
@@ -44,7 +44,7 @@ void zombie_t::update(float delta){
 
 
 	// AI - wandering
-	if(world->placeFree(x+vx*delta*4, y+1)){
+	if(gamestate->world->placeFree(x+vx*delta*4, y+1)){
 		direction *= -1; // change heading when reaching an edge
 		// if(onGround) vy = -450; // just for fun
 	}

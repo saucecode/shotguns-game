@@ -59,7 +59,7 @@ void player_t::update(float delta){
 void player_t::shoot(){
 	canShoot = weapon.shootDelay;
 
-	zombie_t *zed = new zombie_t(x, y, gamestate->world);
+	zombie_t *zed = new zombie_t(gamestate, x, y);
 	gamestate->zombies->push_back(zed);
 
 	sf::Packet spawnZombiePacket;

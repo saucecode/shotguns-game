@@ -20,7 +20,7 @@ world_t *world;
 sf::Packet worldDataPacket;
 gamestate_t *gamestate;
 
-void createZombies(std::vector<zombie_t*>& zombies);
+void createZombies(std::vector<zombie_t*>& zombies, gamestate_t *gamestate);
 void gameLoop();
 void networking();
 bool setupServerSocket();
@@ -52,7 +52,7 @@ int main(){
 	gamestate->zombies = &zombies;
 
 	// create zombies, print them
-	createZombies(zombies);
+	createZombies(zombies, gamestate);
 	for(zombie_t *zed : zombies){
 		std::cout << zed->x << " " << zed->y << "\n";
 	}
@@ -284,9 +284,9 @@ player_t* getPlayerByAddress(sf::IpAddress addr, unsigned short port, int *index
 	return nullptr;
 }
 
-void createZombies(std::vector<zombie_t*>& zombies){
+void createZombies(std::vector<zombie_t*>& zombies, gamestate_t *gamestate){
 	for(int i=0; i<8; i++){
-		zombies.push_back(new zombie_t(i*20.0f, -40, world));
+		zombies.push_back(new zombie_t(gamestate, i*20.0f, -40));
 	}
 }
 
