@@ -10,10 +10,7 @@
 #include "player.hpp"
 #include "zombie.hpp"
 #include "../world.hpp"
-
-unsigned short PLAYER_PACKET_ID = 3;
-unsigned short ZOMBIE_PACKET_ID = 0;
-
+#include "gamestate.hpp"
 
 std::vector<zombie_t*> zombies;
 std::vector<player_t*> players;
@@ -21,7 +18,7 @@ sf::UdpSocket socket;
 unsigned short SERVER_PORT = 43234;
 world_t *world;
 sf::Packet worldDataPacket;
-
+gamestate_t *gamestate;
 
 void createZombies(std::vector<zombie_t*>& zombies);
 void gameLoop();
@@ -48,6 +45,11 @@ int main(){
 	for(solid_t *solid : world->elements){
 		worldDataPacket << solid->x << solid->y << solid->width << solid->height;
 	}
+
+	gamestate = new gamestate_t;
+	gamestate->world = world;
+	gamestate->players = &players;
+	gamestate->zombies = &zombies;
 
 	// create zombies, print them
 	createZombies(zombies);
@@ -147,7 +149,7 @@ void networking(){
 				sf::Packet response;
 
 				response << PACKET_CONNECT << true;
-				player_t *newplayer = new player_t(PLAYER_PACKET_ID++, 0,0, username, world);
+				player_t *newplayer = new player_t(gamestate, 0, 0, username);
 				newplayer->setAddress(&socket, client, clientPort);
 				players.push_back(newplayer);
 				newplayer->send(response);
@@ -284,7 +286,7 @@ player_t* getPlayerByAddress(sf::IpAddress addr, unsigned short port, int *index
 
 void createZombies(std::vector<zombie_t*>& zombies){
 	for(int i=0; i<8; i++){
-		zombies.push_back(new zombie_t(ZOMBIE_PACKET_ID++, i*20.0f, -40, world));
+		zombies.push_back(new zombie_t(i*20.0f, -40, world));
 	}
 }
 
