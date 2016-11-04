@@ -8,6 +8,8 @@ class zombie_t {
 	sf::UdpSocket *socket;
 	world_t *world;
 
+	static unsigned short ZOMBIE_ID;
+
 	public:
 	const float moveSpeed = 100;
 	const float gravity = 981;
@@ -21,7 +23,7 @@ class zombie_t {
 	bool keyState[256];
 	unsigned char keyTimers[256];
 
-	zombie_t(unsigned short id, float x, float y, world_t *world);
+	zombie_t(float x, float y, world_t *world);
 	void update(float delta);
 };
 

@@ -5,8 +5,10 @@
 #include "zombie.hpp"
 #include "../world.hpp"
 
-zombie_t::zombie_t(unsigned short id, float x, float y, world_t *world){
-	this->id = id;
+unsigned short zombie_t::ZOMBIE_ID = 0;
+
+zombie_t::zombie_t(float x, float y, world_t *world){
+	this->id = zombie_t::ZOMBIE_ID++;
 	this->x = x;
 	this->y = y;
 	this->world = world;
