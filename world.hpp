@@ -21,7 +21,6 @@ class world_t {
 	bool isLoaded = false;
 
 	world_t();
-	~world_t();
 
 	void addElement(solid_t *element);
 	void drawElements(sf::RenderWindow *window);

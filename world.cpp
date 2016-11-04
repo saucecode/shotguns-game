@@ -7,11 +7,6 @@ world_t::world_t(){
 
 }
 
-world_t::~world_t(){
-	for(solid_t *solid : elements)
-		delete solid;
-}
-
 void world_t::addElement(solid_t *element){
 	elements.push_back(element);
 
@@ -30,7 +25,7 @@ bool world_t::placeFree(float x, float y){
 }
 
 void world_t::drawElements(sf::RenderWindow *window){
-	for(solid_t *element: elements){
+	for(solid_t *element : elements){
 		window->draw(element->shape);
 	}
 }
