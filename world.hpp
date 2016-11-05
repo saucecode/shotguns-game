@@ -26,7 +26,7 @@ class world_t {
 	void drawElements(sf::RenderWindow *window);
 
 	bool placeFree(float x, float y);
-	bool placeFree(float x, float y, solid_t *collider);
+	bool placeFree(float x, float y, solid_t **collider);
 
 };
 
