@@ -17,21 +17,33 @@ zombie_t::zombie_t(gamestate_t *gamestate, float x, float y){
 }
 
 void zombie_t::update(float delta){
+	/*
+		____  ____  __  ______  ________ ________  ___
+	   /_  / / __ \/  |/  / _ )/  _/ __// ___/ _ \/ _ \
+	    / /_/ /_/ / /|_/ / _  |/ // _/_/ /__/ ___/ ___/
+	   /___/\____/_/  /_/____/___/___(_)___/_/  /_/
+	*/
 	if(keyState[sf::Keyboard::A])
-		vx = -moveSpeed;
+		vx += -moveSpeed * delta;
 	if(keyState[sf::Keyboard::D])
-		vx = moveSpeed;
+		vx += moveSpeed * delta;
+
+	// clamp vx
+	if(vx > moveSpeed) vx = moveSpeed;
+	if(vx < -moveSpeed) vx = -moveSpeed;
 
 	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]) vx *= 0.75;
 
 	vy += gravity * delta;
 
-	bool onGround = !gamestate->world->placeFree(x, y + vy*delta);
+	bool onGround = !gamestate->world->placeFree(x, y + vy*delta + 0.05);
 
-	if(!onGround)
+	if(!onGround){
 		y += vy * delta;
-	else
+	}else{
 		vy = 0;
+	}
+
 	if(gamestate->world->placeFree(x + vx*delta, y))
 		x += vx * delta;
 	else
@@ -44,9 +56,10 @@ void zombie_t::update(float delta){
 
 
 	// AI - wandering
-	if(gamestate->world->placeFree(x+vx*delta*4, y+1)){
+	if(gamestate->world->placeFree(x+vx*delta*4, y+1) && onGround){
 		direction *= -1; // change heading when reaching an edge
 		// if(onGround) vy = -450; // just for fun
+		vx *= -1;
 	}
 
 	keyState[sf::Keyboard::D] = false;

@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 #include "player.hpp"
 #include "zombie.hpp"
@@ -26,6 +27,12 @@ player_t::player_t(gamestate_t *gamestate, float x, float y, std::string usernam
 }
 
 void player_t::update(float delta){
+	/*
+			___  __   _____  _________   ________  ___ 
+		   / _ \/ /  / _ \ \/ / __/ _ \ / ___/ _ \/ _ \
+		  / ___/ /__/ __ |\  / _// , _// /__/ ___/ ___/
+		 /_/  /____/_/ |_|/_/___/_/|_(_)___/_/  /_/
+	*/
 	if(keyState[sf::Keyboard::A])
 		vx = -moveSpeed;
 	if(keyState[sf::Keyboard::D])
@@ -58,13 +65,16 @@ void player_t::update(float delta){
 
 void player_t::shoot(){
 	canShoot = weapon.shootDelay;
+	float angle = atan2((float) mousePosition[1] - y, (float) mousePosition[0] - x);
 
-	zombie_t *zed = new zombie_t(gamestate, mousePosition[0], mousePosition[1]);
+	zombie_t *zed = new zombie_t(gamestate, x, y);
+	zed->vx = cos(angle) * 600;
+	zed->vy = sin(angle) * 600;
 	gamestate->zombies->push_back(zed);
 
 	sf::Packet spawnZombiePacket;
 	spawnZombiePacket << PACKET_ADD_ZOMBIE << (int) 1 << zed->id << zed->x << zed->y;
-	std::cout << zed->x << " " << zed->y << "\n";
+	std::cout << angle << "\n";
 	send(spawnZombiePacket);
 }
 
