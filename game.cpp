@@ -114,6 +114,7 @@ void Game::update(float delta){
 }
 
 void Game::render(float delta){
+	(void) delta;
 	window->clear();
 
 	playerView->setCenter(player->x, player->y);
