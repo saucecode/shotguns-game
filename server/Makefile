@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -std=c++11 -g
 LDFLAGS=-lsfml-graphics -lsfml-network -lsfml-system -pthread
-WFLAGS=-Wall
+WFLAGS=-Wall -Wextra
 SOURCES=player.cpp server.cpp zombie.cpp ../world.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=a.out
