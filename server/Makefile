@@ -1,4 +1,4 @@
-CC=g++
+CC=g++-5
 CFLAGS=-c -std=c++11 -g
 LDFLAGS=-lsfml-graphics -lsfml-network -lsfml-system -pthread
 WFLAGS=-Wall -Wextra
