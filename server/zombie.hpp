@@ -12,6 +12,9 @@ class zombie_t {
 	static unsigned short ZOMBIE_ID;
 
 	public:
+
+	static const char AI_WANDERING, AI_CHASE;
+
 	const float moveSpeed = 100;
 	const float gravity = 981;
 
@@ -19,6 +22,7 @@ class zombie_t {
 	char direction;
 	short health;
 	unsigned short id;
+	char state;
 	float deltaAccumulator = 0;
 
 	gamestate_t *gamestate;
