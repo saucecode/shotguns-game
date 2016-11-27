@@ -22,6 +22,7 @@ Game::Game(){
 	network = new Network(this, "127.0.0.1", 43234, &agents, &zombies, player, world);
 
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML works!");
+	window->setMouseCursorVisible(false);
 	playerView = new sf::View(sf::FloatRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT));
 	playerView->setCenter(player->x, player->y);
 

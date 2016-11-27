@@ -27,6 +27,9 @@ player_t::player_t(Game *game, unsigned short id, float x, float y, std::string 
 	sprite.setOrigin(8,16);
 	sprite.setScale(sf::Vector2f(2,2));
 
+	crosshair.setTexture(*(game->resourceManager->textures.at("crosshair")));
+	// set origin to center of texture
+	crosshair.setOrigin(crosshair.getTexture()->getSize().x/2, crosshair.getTexture()->getSize().y/2);
 }
 
 player_t::~player_t(){
@@ -45,6 +48,9 @@ void player_t::loadResources(sf::Texture *spriteSheet){
 }
 
 void player_t::update(double delta){
+
+	crosshair.setPosition(mousePosition[0], mousePosition[1]);
+
 	if(keyState[sf::Keyboard::A])
 		vx = -moveSpeed;
 	if(keyState[sf::Keyboard::D])
@@ -72,4 +78,5 @@ void player_t::draw(){
 	// draw player character
 	this->sprite.setPosition(x,y);
 	game->window->draw(sprite);
+	game->window->draw(crosshair);
 }

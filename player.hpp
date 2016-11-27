@@ -33,6 +33,7 @@ class player_t {
 
 	sf::CircleShape shape;
 	sf::Sprite sprite;
+	sf::Sprite crosshair;
 
 	world_t *world;
 	Game *game;
