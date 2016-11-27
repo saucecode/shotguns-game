@@ -57,7 +57,8 @@ void player_t::update(float delta){
 		vy = -450; // jump_velocity = sqrt(2 * gravity * maximum_height)
 	}
 
-	if(mouseState[sf::Mouse::Left] && canShoot <= 0.0){
+	//if(mouseState[sf::Mouse::Left] && canShoot <= 0.0){
+	if(keyState[sf::Keyboard::E] && canShoot <= 0.0){
 		shoot();
 	}
 	if(canShoot > 0.0) canShoot -= delta;
