@@ -71,8 +71,8 @@ void Game::update(float delta){
 		for(int i=0; i<256; i++){
 			player->keyState[i] = sf::Keyboard::isKeyPressed(sf::Keyboard::Key(i));
 		}
-		player->mouseState[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-		player->mouseState[1] = sf::Mouse::isButtonPressed(sf::Mouse::Right);
+		player->mouseState[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left) && focused;
+		player->mouseState[1] = sf::Mouse::isButtonPressed(sf::Mouse::Right) && focused;
 
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
 		player->mousePosition[0] = (short) (mousePosition.x + (int) player->x - WINDOW_WIDTH/2);
