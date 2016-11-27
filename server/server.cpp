@@ -38,6 +38,7 @@ int main(){
 
 	world = new world_t();
 	world->addElement(new solid_t{-300,100,600,32});
+	world->addElement(new solid_t{-550,100,150,32});
 
 	// forge PACKET_WORLD_DATA
 	worldDataPacket << PACKET_WORLD_DATA;

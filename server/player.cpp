@@ -28,7 +28,7 @@ player_t::player_t(gamestate_t *gamestate, float x, float y, std::string usernam
 
 void player_t::update(float delta){
 	/*
-			___  __   _____  _________   ________  ___ 
+			___  __   _____  _________   ________  ___
 		   / _ \/ /  / _ \ \/ / __/ _ \ / ___/ _ \/ _ \
 		  / ___/ /__/ __ |\  / _// , _// /__/ ___/ ___/
 		 /_/  /____/_/ |_|/_/___/_/|_(_)___/_/  /_/
@@ -61,6 +61,14 @@ void player_t::update(float delta){
 		shoot();
 	}
 	if(canShoot > 0.0) canShoot -= delta;
+
+	// CHEAT - return to origin
+	if(keyState[sf::Keyboard::Q]){
+		x = 0;
+		y = 0;
+		vx = 0;
+		vy = 0;
+	}
 }
 
 void player_t::shoot(){
