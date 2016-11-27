@@ -40,8 +40,6 @@ Game::Game(){
 	if(!spriteSheet.loadFromFile("res/roguelikeChar_transparent.png")){
 		std::cout << "Failed to load spritesheet\n";
 	}
-
-	player->loadResources(&spriteSheet);
 }
 
 bool Game::startNetworking(){
@@ -126,17 +124,19 @@ void Game::render(float delta){
 
 	//player->shape.setPosition(player->x, player->y);
 	//window->draw(player->shape);
-	if(!player->resourcesLoaded)
+	/*if(!player->resourcesLoaded)
 		player->loadResources(&spriteSheet);
 	player->sprite.setPosition(player->x, player->y);
 	window->draw(player->sprite);
 
 	player->sprite.setPosition(player->mousePosition[0], player->mousePosition[1]);
-	window->draw(player->sprite);
+	window->draw(player->sprite);*/
+	player->draw();
 
 	for(player_t *agent : agents){
-		agent->shape.setPosition(agent->x, agent->y);
-		window->draw(agent->shape);
+		// agent->shape.setPosition(agent->x, agent->y);
+		// window->draw(agent->shape);
+		agent->draw();
 	}
 
 	for(zombie_t *zed : zombies){

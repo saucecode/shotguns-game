@@ -7,6 +7,7 @@
 #include "player.hpp"
 #include "world.hpp"
 #include "game.hpp"
+#include "resource_manager.hpp"
 
 player_t::player_t(Game *game, unsigned short id, float x, float y, std::string username, world_t *world){
 	this->game = game;
@@ -21,12 +22,18 @@ player_t::player_t(Game *game, unsigned short id, float x, float y, std::string 
 	shape = sf::CircleShape(8.0f);
 	shape.setFillColor(sf::Color::White);
 	shape.setOrigin(x + shape.getRadius(),y + shape.getRadius()*2);
+
+	sprite.setTexture(*(game->resourceManager->textures.at("character")));
+	sprite.setOrigin(8,16);
+	sprite.setScale(sf::Vector2f(2,2));
+
 }
 
 player_t::~player_t(){
 	// pass
 }
 
+// ** DEPRECATED **
 void player_t::loadResources(sf::Texture *spriteSheet){
 	if(resourcesLoaded) return;
 
@@ -59,4 +66,10 @@ void player_t::update(double delta){
 	if(onGround && keyState[sf::Keyboard::Space]){
 		vy = -450; // jump_velocity = sqrt(2 * gravity * maximum_height)
 	}
+}
+
+void player_t::draw(){
+	// draw player character
+	this->sprite.setPosition(x,y);
+	game->window->draw(sprite);
 }
