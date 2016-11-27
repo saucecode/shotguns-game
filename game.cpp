@@ -122,37 +122,20 @@ void Game::render(float delta){
 	playerView->setCenter(player->x, player->y);
 	window->setView(*playerView);
 
-	//player->shape.setPosition(player->x, player->y);
-	//window->draw(player->shape);
-	/*if(!player->resourcesLoaded)
-		player->loadResources(&spriteSheet);
-	player->sprite.setPosition(player->x, player->y);
-	window->draw(player->sprite);
-
-	player->sprite.setPosition(player->mousePosition[0], player->mousePosition[1]);
-	window->draw(player->sprite);*/
+	// draw entities
 	player->draw();
+	for(player_t *agent : agents) agent->draw();
+	for(zombie_t *zed : zombies) zed->draw();
 
-	for(player_t *agent : agents){
-		// agent->shape.setPosition(agent->x, agent->y);
-		// window->draw(agent->shape);
-		agent->draw();
-	}
-
-	for(zombie_t *zed : zombies){
-		/*if(!zed->resourcesLoaded)
-			zed->loadResources(&spriteSheet);
-		zed->sprite.setPosition(zed->x, zed->y);
-		window->draw(zed->sprite);*/
-		zed->draw();
-	}
 
 	world->drawElements(window);
 
 
+	// draw debug text
 	latencyDisplayText.setString("Latency: " + std::to_string((int)(network->latency*1000)) + "ms\n"
 		+ "Download: " + std::to_string(network->DISP_RX/1000.0) + "kB/s\n"
 		+ "Upload:   " + std::to_string(network->DISP_TX/1000.0) + "kB/s\n"
+		+ std::to_string((int) (1.0/delta)) + " fps\n"
 	);
 
 	latencyDisplayText.setPosition(
@@ -161,6 +144,7 @@ void Game::render(float delta){
 	);
 
 	window->draw(latencyDisplayText);
+
 
 
 	window->display();
