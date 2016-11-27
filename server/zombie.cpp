@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 
+#include <iostream>
+
 #include "zombie.hpp"
 #include "../world.hpp"
 
@@ -28,15 +30,20 @@ void zombie_t::update(float delta){
 	if(keyState[sf::Keyboard::D])
 		vx += moveSpeed * delta;
 
-	// clamp vx
-	if(vx > moveSpeed) vx = moveSpeed;
-	if(vx < -moveSpeed) vx = -moveSpeed;
-
-	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]) vx *= 0.75;
-
 	vy += gravity * delta;
 
-	bool onGround = !gamestate->world->placeFree(x, y + vy*delta + 0.05);
+	// bool onGround = !gamestate->world->placeFree(x, y + vy*delta + 0.05);
+	bool onGround = !gamestate->world->placeFree(x, y + vy*delta + 0.01);
+
+	if(onGround && !keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]) vx *= 0.95;
+
+	// clamp vx
+	if(onGround && vx > moveSpeed){
+		vx = moveSpeed;
+	}
+	if(onGround && vx < -moveSpeed){
+		vx = -moveSpeed;
+	}
 
 	if(!onGround){
 		y += vy * delta;
@@ -46,8 +53,10 @@ void zombie_t::update(float delta){
 
 	if(gamestate->world->placeFree(x + vx*delta, y))
 		x += vx * delta;
-	else
+	else{
 		vx = 0;
+		std::cout << "clamp\n";
+	}
 
 	if(onGround && keyState[sf::Keyboard::Space])
 	// happy mode enabled
@@ -64,6 +73,6 @@ void zombie_t::update(float delta){
 
 	keyState[sf::Keyboard::D] = false;
 	keyState[sf::Keyboard::A] = false;
-	if(direction == 1) keyState[sf::Keyboard::D] = true;
-	if(direction == -1) keyState[sf::Keyboard::A] = true;
+	if(onGround && direction == 1) keyState[sf::Keyboard::D] = true;
+	if(onGround && direction == -1) keyState[sf::Keyboard::A] = true;
 }

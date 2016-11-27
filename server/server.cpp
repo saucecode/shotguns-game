@@ -288,7 +288,7 @@ player_t* getPlayerByAddress(sf::IpAddress addr, unsigned short port, int *index
 }
 
 void createZombies(std::vector<zombie_t*>& zombies, gamestate_t *gamestate){
-	for(int i=0; i<8; i++){
+	for(int i=0; i<2; i++){
 		zombies.push_back(new zombie_t(gamestate, i*20.0f, -40));
 	}
 }
