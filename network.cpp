@@ -13,6 +13,8 @@
 #include "zombie.hpp"
 #include "game.hpp"
 
+#include "server/weapon.hpp"
+
 Network::Network(Game *game, sf::IpAddress addr, unsigned short port){
 	this->game = game;
 	this->host = addr;
@@ -163,6 +165,12 @@ void Network::run(){
 
 				send(packet);
 				// std::cout << "Got ping - determined latency is " << this->latency * 1000 << "ms\n";
+
+			}else if(packetid == PACKET_SPAWN_PROJECTILE){
+				sf::Vector2f start, end;
+				packet >> start.x >> start.y >> end.x >> end.y;
+				projectile_t projectile(start, end);
+				std::cout << "received projectile ranged " << projectile.range << std::endl;
 
 			}
 
