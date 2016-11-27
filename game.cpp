@@ -30,10 +30,7 @@ Game::Game(){
 	//window->setVerticalSyncEnabled(true);
 	window->setFramerateLimit(60);
 
-	if(!primaryFont.loadFromFile("res/kenpixel_mini.ttf"))
-		std::cout << "Failed to load font\n";
-
-	latencyDisplayText.setFont(primaryFont);
+	latencyDisplayText.setFont(*(resourceManager->fonts.at("primary")));
 	latencyDisplayText.setString("Latency: ?");
 	latencyDisplayText.setColor(sf::Color::White);
 	latencyDisplayText.setCharacterSize(16);
