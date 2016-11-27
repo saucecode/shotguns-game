@@ -140,10 +140,11 @@ void Game::render(float delta){
 	}
 
 	for(zombie_t *zed : zombies){
-		if(!zed->resourcesLoaded)
+		/*if(!zed->resourcesLoaded)
 			zed->loadResources(&spriteSheet);
 		zed->sprite.setPosition(zed->x, zed->y);
-		window->draw(zed->sprite);
+		window->draw(zed->sprite);*/
+		zed->draw();
 	}
 
 	world->drawElements(window);

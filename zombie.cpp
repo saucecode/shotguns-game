@@ -7,6 +7,8 @@
 #include "zombie.hpp"
 #include "world.hpp"
 #include "game.hpp"
+#include "resource_manager.hpp"
+
 
 zombie_t::zombie_t(Game *game, unsigned short id, float x, float y, world_t *world){
 	this->game = game;
@@ -16,11 +18,13 @@ zombie_t::zombie_t(Game *game, unsigned short id, float x, float y, world_t *wor
 	this->world = world;
 
 	direction = 1;
+	sprite.setTexture(*(game->resourceManager->textures.at("zombie")));
+	sprite.setOrigin(8,16);
+	sprite.setScale(sf::Vector2f(2,2));
 }
 
 zombie_t::~zombie_t(){
-	if(characterTexture != nullptr)
-		delete characterTexture;
+	// pass
 }
 
 void zombie_t::update(float delta){
@@ -49,6 +53,7 @@ void zombie_t::update(float delta){
 	}
 }
 
+// ** DEPRECATED **
 void zombie_t::loadResources(sf::Texture *spriteSheet){
 	if(resourcesLoaded) return;
 
@@ -57,4 +62,10 @@ void zombie_t::loadResources(sf::Texture *spriteSheet){
 	sprite.setOrigin(8,16);
 	sprite.setScale(sf::Vector2f(2,2));
 	resourcesLoaded = true;
+}
+
+void zombie_t::draw(){
+	// draw zombie sprite
+	sprite.setPosition(x,y);
+	game->window->draw(sprite);
 }
