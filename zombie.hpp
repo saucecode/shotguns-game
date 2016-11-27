@@ -7,7 +7,6 @@ class Game;
 class zombie_t {
 	private:
 	sf::UdpSocket *socket;
-	world_t *world;
 
 	public:
 	const float moveSpeed = 200;
@@ -23,15 +22,14 @@ class zombie_t {
 	unsigned char keyTimers[256];
 
 	sf::Sprite sprite;
-	sf::Texture *characterTexture = nullptr;
 
 	Game *game;
 
-	zombie_t(Game *game, unsigned short id, float x, float y, world_t *world);
+	zombie_t(Game *game, unsigned short id, float x, float y);
 	~zombie_t();
 	void update(float delta);
 	void draw();
-	void loadResources(sf::Texture *spriteSheet);
+
 };
 
 #endif

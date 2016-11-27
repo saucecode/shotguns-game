@@ -18,7 +18,7 @@ Game::Game(){
 	resourceManager->loadResourcesFolder("res");
 
 	world = new world_t();
-	player = new player_t(this, -1, 0,0, "snowflake", world);
+	player = new player_t(this, -1, 0,0, "snowflake");
 	network = new Network(this, "127.0.0.1", 43234, &agents, &zombies, player, world);
 
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML works!");
@@ -35,9 +35,6 @@ Game::Game(){
 	latencyDisplayText.setColor(sf::Color::White);
 	latencyDisplayText.setCharacterSize(16);
 
-	if(!spriteSheet.loadFromFile("res/roguelikeChar_transparent.png")){
-		std::cout << "Failed to load spritesheet\n";
-	}
 }
 
 bool Game::startNetworking(){

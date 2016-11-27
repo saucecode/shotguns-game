@@ -88,7 +88,7 @@ void Network::run(){
 
 				packet >> id >> name;
 
-				agents->push_back(new player_t(game, id, 0, 0, name, world));
+				agents->push_back(new player_t(game, id, 0, 0, name));
 				std::cout << "Added player " << id << " named " << name << "\n";
 
 			}else if(packetid == PACKET_DROP_PLAYER){
@@ -146,7 +146,7 @@ void Network::run(){
 					unsigned short id;
 					float x, y;
 					packet >> id >> x >> y;
-					zombies->push_back(new zombie_t(game, id, x, y, world));
+					zombies->push_back(new zombie_t(game, id, x, y));
 				}
 				std::cout << "Spawned " << count << " zombies (Total " << zombies->size() << ")\n";
 

@@ -13,8 +13,6 @@ class player_t {
 	const float moveSpeed = 200;
 	const float gravity = 981;
 
-	sf::Texture *characterTexture = nullptr;
-
 	bool resourcesLoaded = false;
 	float x, y, vx, vy;
 	char direction;
@@ -35,15 +33,13 @@ class player_t {
 	sf::Sprite sprite;
 	sf::Sprite crosshair;
 
-	world_t *world;
 	Game *game;
 
-	player_t(Game *game, unsigned short id, float x, float y, std::string username, world_t *world);
+	player_t(Game *game, unsigned short id, float x, float y, std::string username);
 	~player_t();
 
 	void update(double delta);
 	void draw();
-	void loadResources(sf::Texture *spriteSheet);
 
 };
 

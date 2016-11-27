@@ -10,14 +10,14 @@
 #include "resource_manager.hpp"
 
 
-zombie_t::zombie_t(Game *game, unsigned short id, float x, float y, world_t *world){
+zombie_t::zombie_t(Game *game, unsigned short id, float x, float y){
 	this->game = game;
 	this->id = id;
 	this->x = x;
 	this->y = y;
-	this->world = world;
 
 	direction = 1;
+
 	sprite.setTexture(*(game->resourceManager->textures.at("zombie")));
 	sprite.setOrigin(8,16);
 	sprite.setScale(sf::Vector2f(2,2));
@@ -37,13 +37,13 @@ void zombie_t::update(float delta){
 
 	vy += gravity * delta;
 
-	bool onGround = !world->placeFree(x, y + vy);
+	bool onGround = !game->world->placeFree(x, y + vy);
 
 	if(!onGround)
 		y += vy;
 	else
 		vy = 0;
-	if(world->placeFree(x + vx, y))
+	if(game->world->placeFree(x + vx, y))
 		x += vx;
 	else
 		vx = 0;
@@ -51,17 +51,6 @@ void zombie_t::update(float delta){
 	if(onGround && keyState[sf::Keyboard::Space]){
 		vy = -10;
 	}
-}
-
-// ** DEPRECATED **
-void zombie_t::loadResources(sf::Texture *spriteSheet){
-	if(resourcesLoaded) return;
-
-	sprite.setTexture(*spriteSheet);
-	sprite.setTextureRect(sf::IntRect(17, 8*17, 16, 16));
-	sprite.setOrigin(8,16);
-	sprite.setScale(sf::Vector2f(2,2));
-	resourcesLoaded = true;
 }
 
 void zombie_t::draw(){
