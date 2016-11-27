@@ -21,7 +21,7 @@ player_t::player_t(gamestate_t *gamestate, float x, float y, std::string usernam
 	this->y = y;
 	this->username = username;
 	this->gamestate = gamestate;
-	this->weapon = Weapon::shotgun;
+	this->weapon = Weapon::p250;
 
 	direction = 1;
 }
@@ -61,7 +61,7 @@ void player_t::update(float delta){
 	if(keyState[sf::Keyboard::E] && canShoot <= 0.0){
 		deployZombie();
 	}
-	if(mouseState[sf::Mouse::Left] && canShoot <= 0.0)
+	if(mouseState[0] && canShoot <= 0.0)
 		shoot();
 	if(canShoot > 0.0) canShoot -= delta;
 
@@ -78,8 +78,19 @@ void player_t::shoot(){
 	canShoot = weapon.shootDelay;
 	float angle = atan2((float) mousePosition[1] - y, (float) mousePosition[0] - x);
 
-	projectile_t calculatedShotRange = hitscan(gamestate->world, x, y - 10, angle, weapon.range);
-	std::cout << "shot ranged at " << calculatedShotRange.range << "\n";
+	projectile_t projectile = hitscan(gamestate->world, x, y - 10, angle, weapon.range);
+
+	// TODO delete me - testing only
+	sf::Packet projectilePacket;
+	projectilePacket << PACKET_SPAWN_PROJECTILE;
+	projectilePacket << projectile.start.x << projectile.start.y << projectile.end.x << projectile.end.y;
+
+	for(auto *agent : *gamestate->players){
+		agent->send(projectilePacket);
+	}
+
+
+	std::cout << "shot ranged at " << projectile.range << "\n";
 }
 
 projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, const float range){
@@ -97,7 +108,6 @@ projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, co
 
 	projectile_t projectile(sf::Vector2f(x,y), sf::Vector2f(x + distanceTravesedX, y + distanceTravesedY));
 
-	// return sqrt(distanceTravesedX*distanceTravesedX + distanceTravesedY*distanceTravesedY);
 	return projectile;
 
 }
