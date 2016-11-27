@@ -47,7 +47,9 @@ class player_t {
 
 	player_t(gamestate_t *gamestate, float x, float y, std::string username);
 	void update(float delta);
+	void deployZombie();
 	void shoot();
+	projectile_t hitscan(world_t *world, float x, float y, float angle, const float range);
 	void setAddress(sf::UdpSocket *socket, sf::IpAddress addr, unsigned short port);
 	void send(sf::Packet packet);
 };

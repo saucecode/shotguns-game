@@ -59,8 +59,10 @@ void player_t::update(float delta){
 
 	//if(mouseState[sf::Mouse::Left] && canShoot <= 0.0){
 	if(keyState[sf::Keyboard::E] && canShoot <= 0.0){
-		shoot();
+		deployZombie();
 	}
+	if(mouseState[sf::Mouse::Left] && canShoot <= 0.0)
+		shoot();
 	if(canShoot > 0.0) canShoot -= delta;
 
 	// CHEAT - return to origin
@@ -73,6 +75,34 @@ void player_t::update(float delta){
 }
 
 void player_t::shoot(){
+	canShoot = weapon.shootDelay;
+	float angle = atan2((float) mousePosition[1] - y, (float) mousePosition[0] - x);
+
+	projectile_t calculatedShotRange = hitscan(gamestate->world, x, y - 10, angle, weapon.range);
+	std::cout << "shot ranged at " << calculatedShotRange.range << "\n";
+}
+
+projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, const float range){
+	float dx = cos(angle) * 2;
+	float dy = sin(angle) * 2;
+	float distanceTravesedX = 0, distanceTravesedY = 0;
+
+	while(distanceTravesedX*distanceTravesedX + distanceTravesedY*distanceTravesedY < range*range){
+		if(!world->placeFree(x + dx, y + dy)) break;
+		x += dx;
+		y += dy;
+		distanceTravesedX += dx;
+		distanceTravesedY += dy;
+	}
+
+	projectile_t projectile(sf::Vector2f(x,y), sf::Vector2f(x + distanceTravesedX, y + distanceTravesedY));
+
+	// return sqrt(distanceTravesedX*distanceTravesedX + distanceTravesedY*distanceTravesedY);
+	return projectile;
+
+}
+
+void player_t::deployZombie(){
 	canShoot = weapon.shootDelay;
 	float angle = atan2((float) mousePosition[1] - y, (float) mousePosition[0] - x);
 
