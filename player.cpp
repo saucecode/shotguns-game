@@ -31,6 +31,10 @@ player_t::player_t(Game *game, unsigned short id, float x, float y, std::string 
 		// set origin to center of texture
 		crosshair.setOrigin(crosshair.getTexture()->getSize().x/2, crosshair.getTexture()->getSize().y/2);
 	}
+
+	for (int i=0; i<256; i++) {
+		keyState[i] = false;
+	}
 }
 
 player_t::~player_t(){
