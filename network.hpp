@@ -15,10 +15,6 @@ class Network {
 	sf::UdpSocket socket;
 	unsigned short port;
 	sf::IpAddress host;
-	std::vector<player_t*> *agents;
-	std::vector<zombie_t*> *zombies;
-	player_t *player;
-	world_t *world;
 	Game *game;
 
 	public:
@@ -30,7 +26,7 @@ class Network {
 	unsigned long long DISP_TX = 0, DISP_RX = 0;
 	unsigned long long LAST_TX=0, LAST_RX = 0;
 
-	Network(Game *game, sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, std::vector<zombie_t*> *zombies, player_t *player, world_t *world);
+	Network(Game *game, sf::IpAddress addr, unsigned short port);
 
 	bool connect(std::string username);
 	void disconnect();

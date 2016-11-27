@@ -13,14 +13,10 @@
 #include "zombie.hpp"
 #include "game.hpp"
 
-Network::Network(Game *game, sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, std::vector<zombie_t*> *zombies, player_t *player, world_t *world){
+Network::Network(Game *game, sf::IpAddress addr, unsigned short port){
 	this->game = game;
-	this->world = world;
 	this->host = addr;
 	this->port = port;
-	this->agents = agents;
-	this->zombies = zombies;
-	this->player = player;
 }
 
 bool Network::connect(std::string username) {
@@ -88,7 +84,7 @@ void Network::run(){
 
 				packet >> id >> name;
 
-				agents->push_back(new player_t(game, id, 0, 0, name));
+				game->agents.push_back(new player_t(game, id, 0, 0, name));
 				std::cout << "Added player " << id << " named " << name << "\n";
 
 			}else if(packetid == PACKET_DROP_PLAYER){
@@ -96,9 +92,9 @@ void Network::run(){
 				packet >> targetid;
 				std::cout << "Received remove player packet for id " << targetid << "\n";
 				int i=0;
-				for(player_t *p : *agents){
+				for(player_t *p : game->agents){
 					if(p->id == targetid){
-						agents->erase(agents->begin() + i);
+						game->agents.erase(game->agents.begin() + i);
 						break;
 					}
 					i++;
@@ -110,8 +106,8 @@ void Network::run(){
 				packet >> playerid >> x >> y;
 
 				if(playerid == 65535){
-					player->x = x;
-					player->y = y;
+					game->player->x = x;
+					game->player->y = y;
 				}else{
 					player_t *target = getPlayerByID(playerid);
 					if(target != nullptr){
@@ -121,17 +117,17 @@ void Network::run(){
 				}
 
 			}else if(packetid == PACKET_WORLD_DATA){
-				if(!world->isLoaded){
+				if(!game->world->isLoaded){
 					int solidCount;
 					packet >> solidCount;
 					for(int i=0; i<solidCount; i++){
 						float x,y,w,h;
 						packet >> x >> y >> w >> h;
-						world->addElement(new solid_t{x,y,w,h});
+						game->world->addElement(new solid_t{x,y,w,h});
 					}
 					std::cout << "Added " << solidCount << " new solids.\n";
 
-					world->isLoaded = true;
+					game->world->isLoaded = true;
 
 				}
 
@@ -146,9 +142,9 @@ void Network::run(){
 					unsigned short id;
 					float x, y;
 					packet >> id >> x >> y;
-					zombies->push_back(new zombie_t(game, id, x, y));
+					game->zombies.push_back(new zombie_t(game, id, x, y));
 				}
-				std::cout << "Spawned " << count << " zombies (Total " << zombies->size() << ")\n";
+				std::cout << "Spawned " << count << " zombies (Total " << game->zombies.size() << ")\n";
 
 			}else if(packetid == PACKET_MOVE_ZOMBIE){
 				unsigned short id;
@@ -175,7 +171,7 @@ void Network::run(){
 }
 
 player_t* Network::getPlayerByID(unsigned short id){
-	for(player_t *player : *agents){
+	for(player_t *player : game->agents){
 		if(player->id == id)
 			return player;
 	}
@@ -184,7 +180,7 @@ player_t* Network::getPlayerByID(unsigned short id){
 }
 
 zombie_t* Network::getZombieByID(unsigned short id){
-	for(zombie_t *zed : *zombies){
+	for(zombie_t *zed : game->zombies){
 		if(zed->id == id)
 			return zed;
 	}
