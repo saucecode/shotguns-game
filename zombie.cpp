@@ -6,8 +6,10 @@
 
 #include "zombie.hpp"
 #include "world.hpp"
+#include "game.hpp"
 
-zombie_t::zombie_t(unsigned short id, float x, float y, world_t *world){
+zombie_t::zombie_t(Game *game, unsigned short id, float x, float y, world_t *world){
+	this->game = game;
 	this->id = id;
 	this->x = x;
 	this->y = y;

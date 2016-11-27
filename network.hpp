@@ -8,6 +8,7 @@
 class player_t;
 class world_t;
 class zombie_t;
+class Game;
 
 class Network {
 	private:
@@ -18,6 +19,7 @@ class Network {
 	std::vector<zombie_t*> *zombies;
 	player_t *player;
 	world_t *world;
+	Game *game;
 
 	public:
 	bool running = true;
@@ -28,7 +30,7 @@ class Network {
 	unsigned long long DISP_TX = 0, DISP_RX = 0;
 	unsigned long long LAST_TX=0, LAST_RX = 0;
 
-	Network(sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, std::vector<zombie_t*> *zombies, player_t *player, world_t *world);
+	Network(Game *game, sf::IpAddress addr, unsigned short port, std::vector<player_t*> *agents, std::vector<zombie_t*> *zombies, player_t *player, world_t *world);
 
 	bool connect(std::string username);
 	void disconnect();

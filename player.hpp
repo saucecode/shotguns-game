@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 class world_t;
+class Game;
 
 class player_t {
 	public:
@@ -34,8 +35,9 @@ class player_t {
 	sf::Sprite sprite;
 
 	world_t *world;
+	Game *game;
 
-	player_t(unsigned short id, float x, float y, std::string username, world_t *world);
+	player_t(Game *game, unsigned short id, float x, float y, std::string username, world_t *world);
 	~player_t();
 
 	void update(double delta);

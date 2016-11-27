@@ -2,6 +2,7 @@
 #define _SAUCECODE_SHOTGUN_ZOMBIE_HPP
 
 class world_t;
+class Game;
 
 class zombie_t {
 	private:
@@ -24,7 +25,9 @@ class zombie_t {
 	sf::Sprite sprite;
 	sf::Texture *characterTexture = nullptr;
 
-	zombie_t(unsigned short id, float x, float y, world_t *world);
+	Game *game;
+
+	zombie_t(Game *game, unsigned short id, float x, float y, world_t *world);
 	~zombie_t();
 	void update(float delta);
 	void loadResources(sf::Texture *spriteSheet);

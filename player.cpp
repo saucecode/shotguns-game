@@ -6,8 +6,10 @@
 
 #include "player.hpp"
 #include "world.hpp"
+#include "game.hpp"
 
-player_t::player_t(unsigned short id, float x, float y, std::string username, world_t *world){
+player_t::player_t(Game *game, unsigned short id, float x, float y, std::string username, world_t *world){
+	this->game = game;
 	this->id = id;
 	this->x = x;
 	this->y = y;
