@@ -63,6 +63,13 @@ void zombie_t::update(float delta){
 	else
 		vx = 0;
 
+	// do not clip through platforms when moving up
+	if(vy < 0){
+		if(!gamestate->world->placeFree(x + vx*delta, y + vy*delta)){
+			vy = 0;
+		}
+	}
+
 
 	// AI - wandering
 	if(state == zombie_t::AI_WANDERING){
