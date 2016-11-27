@@ -1,0 +1,6 @@
+texture character character.png
+texture crosshair crosshair.png
+#texture characterSheet roguelikeChar_transparent.png
+texture zombie zombie.png
+
+font primary kenpixel_mini.ttf
