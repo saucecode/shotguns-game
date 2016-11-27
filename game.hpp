@@ -10,16 +10,19 @@ class player_t;
 class zombie_t;
 class Network;
 class world_t;
+class ResourceManager;
 
 class Game {
 
 	private:
-	std::vector<player_t*> agents;
-	std::vector<zombie_t*> zombies;
 	const int WINDOW_WIDTH = 640;
 	const int WINDOW_HEIGHT = 480;
 
 	public:
+
+	std::vector<player_t*> agents;
+	std::vector<zombie_t*> zombies;
+
 	Game();
 
 	void update(float delta);
@@ -35,6 +38,7 @@ class Game {
 	sf::Clock byteCounterClock;
 	player_t *player;
 	Network *network;
+	ResourceManager *resourceManager;
 
 	sf::Text latencyDisplayText;
 
