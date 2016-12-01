@@ -5,6 +5,8 @@
 #include <iostream>
 #include <thread>
 
+#include "server/weapon.hpp"
+
 #include "game.hpp"
 #include "player.hpp"
 #include "network.hpp"
@@ -12,6 +14,7 @@
 #include "world.hpp"
 #include "zombie.hpp"
 #include "resource_manager.hpp"
+
 
 Game::Game(){
 	this->resourceManager = new ResourceManager();
@@ -22,7 +25,7 @@ Game::Game(){
 	network = new Network(this, "127.0.0.1", 43234);
 
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML works!");
-	window->setMouseCursorVisible(false);
+	// window->setMouseCursorVisible(false);
 	playerView = new sf::View(sf::FloatRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT));
 	playerView->setCenter(player->x, player->y);
 
@@ -111,7 +114,6 @@ void Game::update(float delta){
 }
 
 void Game::render(float delta){
-	(void) delta;
 	window->clear();
 
 	playerView->setCenter(player->x, player->y);
@@ -124,6 +126,20 @@ void Game::render(float delta){
 
 
 	world->drawElements(window);
+
+	// draw projectiles
+	projectilesMutex.lock();
+	for(projectile_t *projectile : projectiles){
+		if(projectile->life > 0.1)
+			projectile->life -= delta;
+		else
+			projectile->life = 0;
+
+		projectile->line[0].color.a = (unsigned char) (0xff * projectile->life * 0.5);
+		projectile->line[1].color.a = projectile->line[0].color.a * 2;
+		window->draw(projectile->line, 2, sf::Lines);
+	}
+	projectilesMutex.unlock();
 
 
 	// draw debug text

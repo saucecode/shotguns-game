@@ -169,8 +169,18 @@ void Network::run(){
 			}else if(packetid == PACKET_SPAWN_PROJECTILE){
 				sf::Vector2f start, end;
 				packet >> start.x >> start.y >> end.x >> end.y;
-				projectile_t projectile(start, end);
-				std::cout << "received projectile ranged " << projectile.range << std::endl;
+				projectile_t *projectile = new projectile_t(start, end);
+
+				projectile->line[0].color = sf::Color(127,127,127);
+				projectile->line[1].color = sf::Color(127,127,127);
+
+				std::cout << "received projectile ranged " << projectile->range << std::endl;
+
+				game->projectilesMutex.lock();
+				game->projectiles.push_back(projectile);
+				game->projectilesMutex.unlock();
+
+				std::cout << "spawned projectile\n";
 
 			}
 

@@ -5,11 +5,13 @@
 
 #include <thread>
 #include <vector>
+#include <mutex>
 
 class player_t;
 class zombie_t;
 class Network;
 class world_t;
+class projectile_t;
 class ResourceManager;
 
 class Game {
@@ -22,6 +24,8 @@ class Game {
 
 	std::vector<player_t*> agents;
 	std::vector<zombie_t*> zombies;
+	std::vector<projectile_t*> projectiles;
+	std::mutex projectilesMutex;
 
 	Game();
 
