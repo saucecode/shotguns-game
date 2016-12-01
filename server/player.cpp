@@ -76,9 +76,9 @@ void player_t::update(float delta){
 
 void player_t::shoot(){
 	canShoot = weapon.shootDelay;
-	float angle = atan2((float) mousePosition[1] - y, (float) mousePosition[0] - x);
+	float angle = atan2((float) mousePosition[1] - y + weaponHeight, (float) mousePosition[0] - x);
 
-	projectile_t projectile = hitscan(gamestate->world, x, y - 10, angle, weapon.range);
+	projectile_t projectile = hitscan(gamestate->world, x, y - weaponHeight, angle, weapon.range);
 
 	// TODO delete me - testing only
 	sf::Packet projectilePacket;
@@ -94,6 +94,7 @@ void player_t::shoot(){
 }
 
 projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, const float range){
+	float ix=x, iy=y;
 	float dx = cos(angle) * 2;
 	float dy = sin(angle) * 2;
 	float distanceTravesedX = 0, distanceTravesedY = 0;
@@ -106,7 +107,7 @@ projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, co
 		distanceTravesedY += dy;
 	}
 
-	projectile_t projectile(sf::Vector2f(x,y), sf::Vector2f(x + distanceTravesedX, y + distanceTravesedY));
+	projectile_t projectile(sf::Vector2f(ix,iy), sf::Vector2f(ix + distanceTravesedX, iy + distanceTravesedY));
 
 	return projectile;
 

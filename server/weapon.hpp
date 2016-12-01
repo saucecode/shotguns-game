@@ -26,11 +26,15 @@ public:
 	sf::Vector2f start;
 	sf::Vector2f end;
 	float range;
+	float life = 1;
+	sf::Vertex line[2];
 
 	projectile_t(sf::Vector2f start, sf::Vector2f end, float range);
 	projectile_t(sf::Vector2f start, sf::Vector2f end);
 	projectile_t(float x, float y, float angle, float range);
 	projectile_t(sf::Vector2f start, float angle, float range);
+
+	void constructVertices();
 
 };
 
