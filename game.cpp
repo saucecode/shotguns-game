@@ -139,6 +139,16 @@ void Game::render(float delta){
 		projectile->line[1].color.a = projectile->line[0].color.a * 2;
 		window->draw(projectile->line, 2, sf::Lines);
 	}
+
+	// clear dead projectiles
+	projectiles.erase(
+		std::remove_if(projectiles.begin(), projectiles.end(),
+			[](projectile_t *p){
+				return p->life <= 0.0;
+			}),
+		projectiles.end()
+	);
+
 	projectilesMutex.unlock();
 
 
