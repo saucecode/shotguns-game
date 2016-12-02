@@ -169,7 +169,7 @@ void Network::run(){
 			}else if(packetid == PACKET_SPAWN_PROJECTILE){
 				sf::Vector2f start, end;
 				packet >> start.x >> start.y >> end.x >> end.y;
-				projectile_t *projectile = new projectile_t(start, end);
+				projectile_t *projectile = new projectile_t(game->player, start, end);
 
 				projectile->line[0].color = sf::Color(127,127,127);
 				projectile->line[1].color = sf::Color(127,127,127);

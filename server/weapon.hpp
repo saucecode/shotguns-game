@@ -20,6 +20,8 @@ namespace Weapon {
 	static const weapon_t p250 =    {"p250", 0, false, 10, 1, 0.2, 300};
 };
 
+class player_t;
+
 class projectile_t {
 public:
 
@@ -29,10 +31,12 @@ public:
 	float life = 1;
 	sf::Vertex line[2];
 
-	projectile_t(sf::Vector2f start, sf::Vector2f end, float range);
-	projectile_t(sf::Vector2f start, sf::Vector2f end);
-	projectile_t(float x, float y, float angle, float range);
-	projectile_t(sf::Vector2f start, float angle, float range);
+	player_t *owner;
+
+	projectile_t(player_t *owner, sf::Vector2f start, sf::Vector2f end, float range);
+	projectile_t(player_t *owner, sf::Vector2f start, sf::Vector2f end);
+	projectile_t(player_t *owner, float x, float y, float angle, float range);
+	projectile_t(player_t *owner, sf::Vector2f start, float angle, float range);
 
 	void constructVertices();
 
