@@ -53,6 +53,9 @@ class player_t {
 	projectile_t hitscan(world_t *world, float x, float y, float angle, const float range);
 	void setAddress(sf::UdpSocket *socket, sf::IpAddress addr, unsigned short port);
 	void send(sf::Packet packet);
+
+	static bool lineIntersection(sf::Vector2f origin1, sf::Vector2f dest1,
+		sf::Vector2f origin2, sf::Vector2f dest2);
 };
 
 #endif
