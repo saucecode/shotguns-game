@@ -121,7 +121,21 @@ void gameLoop(){
 			zombiePosition << PACKET_MOVE_ZOMBIE;
 			zombiePosition << zed->id << zed->x << zed->y;
 			sendToAll(zombiePosition);
+
+			if(zed->health <= 0){
+				sf::Packet killZombiePacket;
+				killZombiePacket << PACKET_DROP_ZOMBIE << zed->id;
+				sendToAll(killZombiePacket);
+			}
 		}
+
+		zombies.erase(
+			std::remove_if(zombies.begin(), zombies.end(),
+				[](zombie_t *zed){
+					return zed->health <= 0.0;
+				}),
+			zombies.end()
+		);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
