@@ -94,28 +94,40 @@ void player_t::shoot(){
 }
 
 projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, const float range){
-	float ix=x, iy=y;
+	float ix = x, iy = y;
+	sf::Vector2f initialVector(ix,iy);
 	float dx = cos(angle) * 2;
 	float dy = sin(angle) * 2;
 	float distanceTravesedX = 0, distanceTravesedY = 0;
 
-	while(distanceTravesedX*distanceTravesedX + distanceTravesedY*distanceTravesedY < range*range){
-		if(!world->placeFree(x + dx, y + dy)) break;
+	bool flaggyFlag = true;
+
+	while(distanceTravesedX*distanceTravesedX + distanceTravesedY*distanceTravesedY < range*range
+		&& flaggyFlag){
 		x += dx;
 		y += dy;
 		distanceTravesedX += dx;
 		distanceTravesedY += dy;
+
+		for(zombie_t *zed : *gamestate->zombies){
+			if(player_t::lineIntersection(
+				initialVector, sf::Vector2f(x,y),
+				sf::Vector2f(zed->x, zed->y), sf::Vector2f(zed->x, zed->y-24)
+			)){
+				zed->health -= weapon.damage;
+				flaggyFlag = false;
+				break;
+			}
+		}
+
+		if(!world->placeFree(x, y)) flaggyFlag = false;
 	}
 
-	projectile_t projectile(this, sf::Vector2f(ix,iy), sf::Vector2f(ix + distanceTravesedX, iy + distanceTravesedY));
-
-	for(zombie_t *zed : *gamestate->zombies){
-		if(player_t::lineIntersection(
-			projectile.start, projectile.end,
-			sf::Vector2f(zed->x, zed->y), sf::Vector2f(zed->x, zed->y-24)
-		))
-			zed->vy = -200;
-	}
+	projectile_t projectile(
+		this,
+		sf::Vector2f(ix,iy),
+		sf::Vector2f(ix + distanceTravesedX, iy + distanceTravesedY)
+	);
 
 	return projectile;
 }
