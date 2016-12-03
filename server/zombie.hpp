@@ -20,7 +20,7 @@ class zombie_t {
 
 	float x, y, vx=0, vy=0;
 	char direction;
-	short health;
+	short health = 1000;
 	unsigned short id;
 	char state;
 	float deltaAccumulator = 0;
