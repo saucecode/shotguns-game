@@ -159,6 +159,16 @@ void Network::run(){
 					zed->y = y;
 				}
 
+			}else if(packetid == PACKET_DROP_ZOMBIE){
+				unsigned short zedID;
+				packet >> zedID;
+				zombie_t *zed = getZombieByID(zedID);
+				if(zed != nullptr){
+					zed->health = 0; // zed's dead
+					std::cout << "Killed zombie ID " << zedID << "\n";
+				}
+
+
 			}else if(packetid == PACKET_PINGAZ){
 				int counter;
 				packet >> counter >> this->latency;
