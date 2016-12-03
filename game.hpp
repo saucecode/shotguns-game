@@ -23,7 +23,9 @@ class Game {
 	public:
 
 	std::vector<player_t*> agents;
+	std::mutex agentsMutex;
 	std::vector<zombie_t*> zombies;
+	std::mutex zombiesMutex;
 	std::vector<projectile_t*> projectiles;
 	std::mutex projectilesMutex;
 

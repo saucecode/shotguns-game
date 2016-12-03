@@ -104,6 +104,18 @@ void Game::update(float delta){
 
 	player->update(delta);
 
+	// clear dead zombies
+	zombiesMutex.lock();
+	zombies.erase(
+		std::remove_if(zombies.begin(), zombies.end(),
+			[](zombie_t *zed){
+				return zed->health <= 0.0;
+			}),
+		zombies.end()
+	);
+	zombiesMutex.unlock();
+
+
 	if(byteCounterClock.getElapsedTime().asSeconds() > 0.25){
 		byteCounterClock.restart();
 		network->DISP_TX = network->LAST_TX * 4;
