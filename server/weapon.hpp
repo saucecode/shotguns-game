@@ -16,8 +16,8 @@ typedef struct {
 } weapon_t;
 
 namespace Weapon {
-	static const weapon_t shotgun = {"shotgun", 0, false, 16, 5, 0.8, 180};
-	static const weapon_t p250 =    {"p250", 0, false, 10, 1, 0.2, 300};
+	static const weapon_t shotgun = {"shotgun", 0, false, 160, 5, 0.8, 180};
+	static const weapon_t p250 =    {"p250", 0, false, 100, 1, 0.2, 300};
 };
 
 class player_t;
