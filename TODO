@@ -1,3 +1,5 @@
+TODO: Damage zombies with projectiles
+
 Zombie AI
 Zombies dying
 
@@ -9,3 +11,5 @@ melee weapon sprite
 melee pattern mechanic?
 
 Lag compensation
+
+rewrite lineIntersection function
