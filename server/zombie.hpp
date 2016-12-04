@@ -19,6 +19,7 @@ class zombie_t {
 	const float gravity = 981;
 
 	float x, y, vx=0, vy=0;
+	float width = 32, height = 32;
 	char direction;
 	short health = 1000;
 	unsigned short id;

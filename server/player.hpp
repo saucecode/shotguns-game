@@ -21,6 +21,7 @@ class player_t {
 	float weaponHeight = 10;
 
 	float x, y, vx=0, vy=0;
+	float width = 32, height = 32;
 	float lastSentX=0, lastSentY=0;
 	char direction;
 	short health;
