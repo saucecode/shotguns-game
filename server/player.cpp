@@ -110,17 +110,16 @@ projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, co
 		distanceTravesedY += dy;
 
 		for(zombie_t *zed : *gamestate->zombies){
-			if(player_t::lineIntersection(
-				initialVector, sf::Vector2f(x,y),
-				sf::Vector2f(zed->x, zed->y), sf::Vector2f(zed->x, zed->y-24)
-			)){
+			// check if projectile has moved into zombie's bounding box
+			if(x > zed->x - zed->width/2 && x < zed->x + zed->width/2
+			&& y > zed->y - zed->height/2 && y < zed->y + zed->height/2){
 				zed->health -= weapon.damage;
 				flaggyFlag = false;
 				break;
 			}
 		}
 
-		if(!world->placeFree(x, y)) flaggyFlag = false;
+		if(!world->placeFree(x, y) && !flaggyFlag) flaggyFlag = false;
 	}
 
 	projectile_t projectile(
