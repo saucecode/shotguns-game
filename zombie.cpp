@@ -19,7 +19,7 @@ zombie_t::zombie_t(Game *game, unsigned short id, float x, float y){
 	direction = 1;
 
 	sprite.setTexture(*(game->resourceManager->textures.at("zombie")));
-	sprite.setOrigin(8,16);
+	sprite.setOrigin(sprite.getTexture()->getSize().x/2, sprite.getTexture()->getSize().y/2);
 	sprite.setScale(sf::Vector2f(2,2));
 }
 
