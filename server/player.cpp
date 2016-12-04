@@ -119,7 +119,7 @@ projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, co
 			}
 		}
 
-		if(!world->placeFree(x, y) && !flaggyFlag) flaggyFlag = false;
+		if(!world->placeFree(x, y) && flaggyFlag) flaggyFlag = false;
 	}
 
 	projectile_t projectile(
