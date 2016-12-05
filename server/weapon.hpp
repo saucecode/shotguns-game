@@ -29,14 +29,13 @@ public:
 	sf::Vector2f end;
 	float range;
 	float life = 1;
+	unsigned short ownerid;
 	sf::Vertex line[2];
 
-	player_t *owner;
-
-	projectile_t(player_t *owner, sf::Vector2f start, sf::Vector2f end, float range);
-	projectile_t(player_t *owner, sf::Vector2f start, sf::Vector2f end);
-	projectile_t(player_t *owner, float x, float y, float angle, float range);
-	projectile_t(player_t *owner, sf::Vector2f start, float angle, float range);
+	projectile_t(unsigned short ownerid, sf::Vector2f start, sf::Vector2f end, float range);
+	projectile_t(unsigned short ownerid, sf::Vector2f start, sf::Vector2f end);
+	projectile_t(unsigned short ownerid, float x, float y, float angle, float range);
+	projectile_t(unsigned short ownerid, sf::Vector2f start, float angle, float range);
 
 	void constructVertices();
 
