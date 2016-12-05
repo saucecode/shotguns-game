@@ -6,6 +6,7 @@
 #include <thread>
 #include <vector>
 #include <mutex>
+#include <cstdint>
 
 class player_t;
 class zombie_t;
@@ -17,8 +18,8 @@ class ResourceManager;
 class Game {
 
 	private:
-	const int WINDOW_WIDTH = 640;
-	const int WINDOW_HEIGHT = 480;
+	const int32_t WINDOW_WIDTH = 640;
+	const int32_t WINDOW_HEIGHT = 480;
 
 	public:
 

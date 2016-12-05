@@ -3,6 +3,8 @@
 
 #include <SFML/Network.hpp>
 
+#include <cstdint>
+
 #include "weapon.hpp"
 #include "gamestate.hpp"
 
@@ -13,7 +15,7 @@ class player_t {
 	private:
 	sf::UdpSocket *socket;
 
-	static unsigned short PLAYER_ID;
+	static uint16_t PLAYER_ID;
 
 	public:
 	const float moveSpeed = 200;
@@ -23,9 +25,9 @@ class player_t {
 	float x, y, vx=0, vy=0;
 	float width = 32, height = 32;
 	float lastSentX=0, lastSentY=0;
-	char direction;
-	short health;
-	unsigned short id;
+	int8_t direction;
+	int16_t health;
+	uint16_t id;
 	std::string username;
 	gamestate_t *gamestate;
 
@@ -34,25 +36,25 @@ class player_t {
 
 	bool hasDownloadedWorld = false;
 
-	int pingTicker = 0;
+	int32_t pingTicker = 0;
 	float latency = 0; // seconds
 	sf::Clock pingClock;
 
 	bool keyState[256];
 	bool mouseState[2];
-	short mousePosition[2];
-	unsigned char keyTimers[256];
+	int16_t mousePosition[2];
+	uint8_t keyTimers[256];
 
 	sf::IpAddress addr;
-	unsigned short port;
+	uint16_t port;
 
 
 	player_t(gamestate_t *gamestate, float x, float y, std::string username);
 	void update(float delta);
 	void deployZombie();
 	void shoot();
-	projectile_t hitscan(unsigned short ownerid, world_t *world, float x, float y, float angle, const float range);
-	void setAddress(sf::UdpSocket *socket, sf::IpAddress addr, unsigned short port);
+	projectile_t hitscan(uint16_t ownerid, world_t *world, float x, float y, float angle, const float range);
+	void setAddress(sf::UdpSocket *socket, sf::IpAddress addr, uint16_t port);
 	void send(sf::Packet packet);
 
 	static bool lineIntersection(sf::Vector2f origin1, sf::Vector2f dest1,

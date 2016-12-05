@@ -1,7 +1,9 @@
 #ifndef _SAUCECODE_SHOTGUN_PACKETID_HPP
 #define _SAUCECODE_SHOTGUN_PACKETID_HPP
 
-const unsigned char PACKET_CONNECT = 0,
+#include <cstdint>
+
+const uint8_t PACKET_CONNECT = 0,
 	PACKET_DISCONNECT = 1,
 	PACKET_ADD_PLAYER = 2,
 	PACKET_DROP_PLAYER = 3,

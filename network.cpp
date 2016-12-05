@@ -5,6 +5,7 @@
 #include <thread>
 #include <iostream>
 #include <exception>
+#include <cstdint>
 
 #include "network.hpp"
 #include "packetid.hpp"
@@ -30,8 +31,8 @@ bool Network::connect(std::string username) {
 
 	sf::Packet response;
 	sf::IpAddress sender;
-	unsigned short senderport;
-	unsigned char packetid;
+	uint16_t senderport;
+	uint8_t packetid;
 	this->socket.receive(response, sender, senderport);
 
 	if(sender != host || port != senderport){
@@ -66,7 +67,7 @@ void Network::run(){
 		if(selector.wait()){
 			sf::Packet packet;
 			sf::IpAddress packetAddr;
-			unsigned short packetPort = 0;
+			uint16_t packetPort = 0;
 			socket.receive(packet, packetAddr, packetPort);
 
 			if(packetAddr != host || port != packetPort){
@@ -77,11 +78,11 @@ void Network::run(){
 			RX += packet.getDataSize();
 			LAST_RX += packet.getDataSize();
 
-			unsigned char packetid;
+			uint8_t packetid;
 			packet >> packetid;
 
 			if(packetid == PACKET_ADD_PLAYER){
-				unsigned short id=0;
+				uint16_t id = 0;
 				std::string name;
 
 				packet >> id >> name;
@@ -90,7 +91,7 @@ void Network::run(){
 				std::cout << "Added player " << id << " named " << name << "\n";
 
 			}else if(packetid == PACKET_DROP_PLAYER){
-				unsigned short targetid;
+				uint16_t targetid;
 				packet >> targetid;
 				std::cout << "Received remove player packet for id " << targetid << "\n";
 				int i=0;
@@ -103,7 +104,7 @@ void Network::run(){
 				}
 
 			}else if(packetid == PACKET_MOVE_PLAYER){
-				unsigned short playerid;
+				uint16_t playerid;
 				float x,y;
 				packet >> playerid >> x >> y;
 
@@ -141,7 +142,7 @@ void Network::run(){
 				int count;
 				packet >> count;
 				for(int i=0; i<count; i++){
-					unsigned short id;
+					uint16_t id;
 					float x, y;
 					packet >> id >> x >> y;
 					game->zombies.push_back(new zombie_t(game, id, x, y));
@@ -149,7 +150,7 @@ void Network::run(){
 				std::cout << "Spawned " << count << " zombies (Total " << game->zombies.size() << ")\n";
 
 			}else if(packetid == PACKET_MOVE_ZOMBIE){
-				unsigned short id;
+				uint16_t id;
 				float x, y;
 
 				packet >> id >> x >> y;
@@ -160,7 +161,7 @@ void Network::run(){
 				}
 
 			}else if(packetid == PACKET_DROP_ZOMBIE){
-				unsigned short zedID;
+				uint16_t zedID;
 				packet >> zedID;
 				zombie_t *zed = getZombieByID(zedID);
 				if(zed != nullptr){
@@ -170,7 +171,7 @@ void Network::run(){
 
 
 			}else if(packetid == PACKET_PINGAZ){
-				int counter;
+				uint32_t counter;
 				packet >> counter >> this->latency;
 
 				send(packet);
@@ -178,7 +179,7 @@ void Network::run(){
 
 			}else if(packetid == PACKET_SPAWN_PROJECTILE){
 				sf::Vector2f start, end;
-				sf::Uint16 ownerid;
+				uint16_t ownerid;
 				packet >> ownerid >> start.x >> start.y >> end.x >> end.y;
 				projectile_t *projectile = new projectile_t(ownerid, start, end);
 
@@ -200,7 +201,7 @@ void Network::run(){
 	}
 }
 
-player_t* Network::getPlayerByID(unsigned short id){
+player_t* Network::getPlayerByID(uint16_t id){
 	for(player_t *player : game->agents){
 		if(player->id == id)
 			return player;
@@ -209,7 +210,7 @@ player_t* Network::getPlayerByID(unsigned short id){
 	return nullptr;
 }
 
-zombie_t* Network::getZombieByID(unsigned short id){
+zombie_t* Network::getZombieByID(uint16_t id){
 	for(zombie_t *zed : game->zombies){
 		if(zed->id == id)
 			return zed;

@@ -4,13 +4,14 @@
 #include <SFML/Graphics.hpp>
 
 #include <string>
+#include <cstdint>
 
 typedef struct {
 	std::string name;
-	unsigned short id;
+	uint16_t id;
 	bool isMelee;
 	float damage;
-	int bulletCount;
+	int32_t bulletCount;
 	float shootDelay;
 	float range;
 } weapon_t;
@@ -29,13 +30,13 @@ public:
 	sf::Vector2f end;
 	float range;
 	float life = 1;
-	unsigned short ownerid;
+	uint16_t ownerid;
 	sf::Vertex line[2];
 
-	projectile_t(unsigned short ownerid, sf::Vector2f start, sf::Vector2f end, float range);
-	projectile_t(unsigned short ownerid, sf::Vector2f start, sf::Vector2f end);
-	projectile_t(unsigned short ownerid, float x, float y, float angle, float range);
-	projectile_t(unsigned short ownerid, sf::Vector2f start, float angle, float range);
+	projectile_t(uint16_t ownerid, sf::Vector2f start, sf::Vector2f end, float range);
+	projectile_t(uint16_t ownerid, sf::Vector2f start, sf::Vector2f end);
+	projectile_t(uint16_t ownerid, float x, float y, float angle, float range);
+	projectile_t(uint16_t ownerid, sf::Vector2f start, float angle, float range);
 
 	void constructVertices();
 

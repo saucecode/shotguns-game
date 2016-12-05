@@ -5,6 +5,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <cstdint>
 
 #include "../packetid.hpp"
 #include "player.hpp"
@@ -15,7 +16,7 @@
 std::vector<zombie_t*> zombies;
 std::vector<player_t*> players;
 sf::UdpSocket socket;
-unsigned short SERVER_PORT = 43234;
+uint16_t SERVER_PORT = 43234;
 world_t *world;
 sf::Packet worldDataPacket;
 gamestate_t *gamestate;
@@ -25,9 +26,9 @@ void gameLoop();
 void networking();
 bool setupServerSocket();
 
-player_t* getPlayerByAddress(sf::IpAddress addr, unsigned short port, int *indexOf=nullptr);
-player_t* getPlayerByID(unsigned short id);
-void sendToAllExcept(sf::Packet packet, unsigned short id);
+player_t* getPlayerByAddress(sf::IpAddress addr, uint16_t port, int32_t *indexOf=nullptr);
+player_t* getPlayerByID(uint16_t id);
+void sendToAllExcept(sf::Packet packet, uint16_t id);
 void sendToAll(sf::Packet packet);
 
 int main(){
@@ -94,7 +95,7 @@ void gameLoop(){
 
 			if(player->x != player->lastSentX || player->y != player->lastSentY){
 				sf::Packet packetPosition;
-				packetPosition << PACKET_MOVE_PLAYER << (unsigned short) -1 << player->x << player->y;
+				packetPosition << PACKET_MOVE_PLAYER << (uint16_t) -1 << player->x << player->y;
 				player->send(packetPosition);
 
 				sf::Packet positionPacket2;
@@ -151,9 +152,9 @@ void networking(){
 		if(selector.wait()){
 
 			sf::Packet packet;
-			unsigned char packetid;
+			uint8_t packetid;
 			sf::IpAddress client;
-			unsigned short clientPort;
+			uint16_t clientPort;
 			socket.receive(packet, client, clientPort);
 			packet >> packetid;
 
@@ -210,7 +211,7 @@ void networking(){
 
 			}else if(packetid == PACKET_MOVE_PLAYER){
 				player_t *player = getPlayerByAddress(client, clientPort);
-				sf::Int8 direction;
+				int8_t direction;
 				packet >> direction;
 
 				if(direction == 'D'){
@@ -226,7 +227,7 @@ void networking(){
 				sendToAllExcept(echo, player->id);
 
 				sf::Packet forceResponsePacket;
-				forceResponsePacket << PACKET_MOVE_PLAYER << (unsigned short) -1 << player->x << player->y;
+				forceResponsePacket << PACKET_MOVE_PLAYER << (uint16_t) -1 << player->x << player->y;
 				player->send(forceResponsePacket);
 
 			}else if(packetid == PACKET_KEY_STATE){
@@ -273,14 +274,14 @@ void sendToAll(sf::Packet packet){
 	}
 }
 
-void sendToAllExcept(sf::Packet packet, unsigned short id){
+void sendToAllExcept(sf::Packet packet, uint16_t id){
 	for(player_t *player : players){
 		if(player->id == id) continue;
 		player->send(packet);
 	}
 }
 
-player_t* getPlayerByID(unsigned short id){
+player_t* getPlayerByID(uint16_t id){
 	for(player_t *player : players){
 		if(player->id == id)
 			return player;
@@ -289,7 +290,7 @@ player_t* getPlayerByID(unsigned short id){
 	return nullptr;
 }
 
-player_t* getPlayerByAddress(sf::IpAddress addr, unsigned short port, int *indexOf){
+player_t* getPlayerByAddress(sf::IpAddress addr, uint16_t port, int *indexOf){
 	int i=0;
 	for(player_t *player : players){
 		if(player->addr == addr && player->port == port){

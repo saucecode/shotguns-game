@@ -3,8 +3,9 @@
 #include <SFML/Graphics.hpp>
 
 #include <cmath>
+#include <cstdint>
 
-projectile_t::projectile_t(unsigned short ownerid, sf::Vector2f start, sf::Vector2f end, float range){
+projectile_t::projectile_t(uint16_t ownerid, sf::Vector2f start, sf::Vector2f end, float range){
 	this->ownerid = ownerid;
 	this->start = start;
 	this->end = end;
@@ -13,7 +14,7 @@ projectile_t::projectile_t(unsigned short ownerid, sf::Vector2f start, sf::Vecto
 	constructVertices();
 }
 
-projectile_t::projectile_t(unsigned short ownerid, sf::Vector2f start, sf::Vector2f end){
+projectile_t::projectile_t(uint16_t ownerid, sf::Vector2f start, sf::Vector2f end){
 	this->ownerid = ownerid;
 	this->start = start;
 	this->end = end;
@@ -22,7 +23,7 @@ projectile_t::projectile_t(unsigned short ownerid, sf::Vector2f start, sf::Vecto
 	constructVertices();
 }
 
-projectile_t::projectile_t(unsigned short ownerid, float x, float y, float angle, float range){
+projectile_t::projectile_t(uint16_t ownerid, float x, float y, float angle, float range){
 	this->ownerid = ownerid;
 	this->start.x = x;
 	this->start.y = y;
@@ -32,7 +33,7 @@ projectile_t::projectile_t(unsigned short ownerid, float x, float y, float angle
 	constructVertices();
 }
 
-projectile_t::projectile_t(unsigned short ownerid, sf::Vector2f start, float angle, float range){
+projectile_t::projectile_t(uint16_t ownerid, sf::Vector2f start, float angle, float range){
 	this->ownerid = ownerid;
 	this->start = start;
 	this->end.x = cos(angle) * range;

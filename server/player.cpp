@@ -13,7 +13,7 @@
 #include "../packetid.hpp"
 #include "gamestate.hpp"
 
-unsigned short player_t::PLAYER_ID = 0;
+uint16_t player_t::PLAYER_ID = 0;
 
 player_t::player_t(gamestate_t *gamestate, float x, float y, std::string username){
 	this->id = player_t::PLAYER_ID++;

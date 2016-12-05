@@ -4,6 +4,8 @@
 #include <SFML/Network.hpp>
 #include <SFML/Graphics.hpp>
 
+#include <cstdint>
+
 class world_t;
 class Game;
 
@@ -15,19 +17,19 @@ class player_t {
 
 	bool resourcesLoaded = false;
 	float x, y, vx, vy;
-	char direction;
-	short health;
-	unsigned short id;
+	int8_t direction;
+	int16_t health;
+	uint16_t id;
 	std::string username;
 	bool keyState[256];
 	bool mouseState[2];
-	short mousePosition[2];
-	unsigned char keyTimers[256];
+	int16_t mousePosition[2];
+	uint8_t keyTimers[256];
 
 	bool networkKeyState[12];
 
 	sf::IpAddress addr;
-	unsigned short port;
+	uint16_t port;
 
 	sf::CircleShape shape;
 	sf::Sprite sprite;
@@ -35,7 +37,7 @@ class player_t {
 
 	Game *game;
 
-	player_t(Game *game, unsigned short id, float x, float y, std::string username);
+	player_t(Game *game, uint16_t id, float x, float y, std::string username);
 	~player_t();
 
 	void update(double delta);

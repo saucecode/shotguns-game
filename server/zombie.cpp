@@ -3,12 +3,14 @@
 #include <SFML/Network.hpp>
 
 #include <iostream>
+#include <cstdint>
 
-#include "zombie.hpp"
 #include "../world.hpp"
 
-unsigned short zombie_t::ZOMBIE_ID = 0;
-const char zombie_t::AI_WANDERING = 'W', zombie_t::AI_CHASE = 'C';
+#include "zombie.hpp"
+
+uint16_t zombie_t::ZOMBIE_ID = 0;
+const int8_t zombie_t::AI_WANDERING = 'W', zombie_t::AI_CHASE = 'C';
 
 zombie_t::zombie_t(gamestate_t *gamestate, float x, float y){
 	this->id = zombie_t::ZOMBIE_ID++;
