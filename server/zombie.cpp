@@ -30,8 +30,8 @@ void zombie_t::update(float delta){
 	*/
 
 	solid_t *ground;
-	bool onGround = !gamestate->world->placeFree(x, y + height/2 + vy*delta + 0.01, &ground);
-	if(onGround) y = ground->y - height/2;
+	bool onGround = !gamestate->world->placeFree(x, y + height*0.5 + vy*delta + 0.01, &ground);
+	if(onGround) y = ground->y - height*0.5;
 
 	// translate keyboard inputs
 
@@ -58,7 +58,7 @@ void zombie_t::update(float delta){
 		vy = 0;
 	}
 
-	if(gamestate->world->placeFree(x + vx*delta, y))
+	if(gamestate->world->placeFree(x + vx*delta, y + height*0.5))
 		x += vx * delta;
 	else
 		vx = 0;
@@ -74,13 +74,13 @@ void zombie_t::update(float delta){
 	// AI - wandering
 	if(state == zombie_t::AI_WANDERING){
 		// change heading when reaching an edge
-		if(gamestate->world->placeFree(x+vx*delta*4, y+1 + height/2) && onGround){
+		if(gamestate->world->placeFree(x+vx*delta*4, y+1 + height*0.5) && onGround){
 			direction *= -1;
 			vx *= -1;
 		}
 	}else if(state == zombie_t::AI_CHASE){
 		// when chasing someone, jump when you reach an edge
-		if(gamestate->world->placeFree(x+vx*delta*4, y+1 + height/2) && onGround){
+		if(gamestate->world->placeFree(x+vx*delta*4, y+1 + height*0.5) && onGround){
 			keyState[sf::Keyboard::Space] = true;
 		}
 	}
