@@ -78,22 +78,31 @@ void player_t::shoot(){
 	canShoot = weapon.shootDelay;
 	float angle = atan2((float) mousePosition[1] - y + weaponHeight, (float) mousePosition[0] - x);
 
-	projectile_t projectile = hitscan(gamestate->world, x, y - weaponHeight, angle, weapon.range);
+	projectile_t projectile = hitscan(this->id, gamestate->world, x, y - weaponHeight, angle, weapon.range);
 
 	// TODO delete me - testing only
 	sf::Packet projectilePacket;
 	projectilePacket << PACKET_SPAWN_PROJECTILE;
+	projectilePacket << this->id;
 	projectilePacket << projectile.start.x << projectile.start.y << projectile.end.x << projectile.end.y;
 
 	for(auto *agent : *gamestate->players){
+		if(agent->id == this->id) continue;
 		agent->send(projectilePacket);
 	}
+
+	projectilePacket.clear();
+	projectilePacket << PACKET_SPAWN_PROJECTILE;
+	projectilePacket << sf::Uint16(-1);
+	projectilePacket << projectile.start.x << projectile.start.y << projectile.end.x << projectile.end.y;
+
+	send(projectilePacket);
 
 
 	std::cout << "shot ranged at " << projectile.range << "\n";
 }
 
-projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, const float range){
+projectile_t player_t::hitscan(unsigned short ownerid, world_t *world, float x, float y, float angle, const float range){
 	float ix = x, iy = y;
 	sf::Vector2f initialVector(ix,iy);
 	float dx = cos(angle) * 2;
@@ -123,7 +132,7 @@ projectile_t player_t::hitscan(world_t *world, float x, float y, float angle, co
 	}
 
 	projectile_t projectile(
-		this,
+		ownerid,
 		sf::Vector2f(ix,iy),
 		sf::Vector2f(ix + distanceTravesedX, iy + distanceTravesedY)
 	);
@@ -178,6 +187,7 @@ void player_t::deployZombie(){
 	zombie_t *zed = new zombie_t(gamestate, x, y);
 	zed->vx = cos(angle) * 600;
 	zed->vy = sin(angle) * 600;
+
 	gamestate->zombies->push_back(zed);
 
 	sf::Packet spawnZombiePacket;

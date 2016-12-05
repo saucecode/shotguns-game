@@ -51,7 +51,7 @@ class player_t {
 	void update(float delta);
 	void deployZombie();
 	void shoot();
-	projectile_t hitscan(world_t *world, float x, float y, float angle, const float range);
+	projectile_t hitscan(unsigned short ownerid, world_t *world, float x, float y, float angle, const float range);
 	void setAddress(sf::UdpSocket *socket, sf::IpAddress addr, unsigned short port);
 	void send(sf::Packet packet);
 
