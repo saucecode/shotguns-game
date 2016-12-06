@@ -9,7 +9,7 @@
 #include "game.hpp"
 #include "resource_manager.hpp"
 
-player_t::player_t(Game *game, unsigned short id, float x, float y, std::string username){
+player_t::player_t(Game *game, int16_t id, float x, float y, std::string username){
 	this->game = game;
 	this->id = id;
 	this->x = x;
@@ -26,7 +26,7 @@ player_t::player_t(Game *game, unsigned short id, float x, float y, std::string 
 	sprite.setOrigin(8,16);
 	sprite.setScale(sf::Vector2f(2,2));
 
-	if(id == 65535){
+	if(id == -1){
 		crosshair.setTexture(*(game->resourceManager->textures.at("crosshair")));
 		// set origin to center of texture
 		crosshair.setOrigin(crosshair.getTexture()->getSize().x/2, crosshair.getTexture()->getSize().y/2);
@@ -69,7 +69,7 @@ void player_t::draw(){
 	// draw player character
 	this->sprite.setPosition(x,y);
 	game->window->draw(sprite);
-	if(id == 65535){
+	if(id == -1){
 		crosshair.setPosition(mousePosition[0], mousePosition[1]);
 		game->window->draw(crosshair);
 	}

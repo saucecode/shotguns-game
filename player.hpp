@@ -19,7 +19,7 @@ class player_t {
 	float x, y, vx, vy;
 	int8_t direction;
 	int16_t health;
-	uint16_t id;
+	int16_t id;
 	std::string username;
 	bool keyState[256];
 	bool mouseState[2];
@@ -37,7 +37,7 @@ class player_t {
 
 	Game *game;
 
-	player_t(Game *game, uint16_t id, float x, float y, std::string username);
+	player_t(Game *game, int16_t id, float x, float y, std::string username);
 	~player_t();
 
 	void update(double delta);

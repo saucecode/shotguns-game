@@ -33,7 +33,7 @@ class Network {
 	void disconnect();
 
 	void run();
-	player_t* getPlayerByID(uint16_t id);
+	player_t* getPlayerByID(int16_t id);
 	zombie_t* getZombieByID(uint16_t id);
 	void stop();
 	void send(sf::Packet packet);

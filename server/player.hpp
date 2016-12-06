@@ -15,7 +15,7 @@ class player_t {
 	private:
 	sf::UdpSocket *socket;
 
-	static uint16_t PLAYER_ID;
+	static int16_t PLAYER_ID;
 
 	public:
 	const float moveSpeed = 200;
@@ -27,7 +27,7 @@ class player_t {
 	float lastSentX=0, lastSentY=0;
 	int8_t direction;
 	int16_t health;
-	uint16_t id;
+	int16_t id;
 	std::string username;
 	gamestate_t *gamestate;
 
@@ -53,7 +53,7 @@ class player_t {
 	void update(float delta);
 	void deployZombie();
 	void shoot();
-	projectile_t hitscan(uint16_t ownerid, world_t *world, float x, float y, float angle, const float range);
+	projectile_t hitscan(int16_t ownerid, world_t *world, float x, float y, float angle, const float range);
 	void setAddress(sf::UdpSocket *socket, sf::IpAddress addr, uint16_t port);
 	void send(sf::Packet packet);
 

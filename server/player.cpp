@@ -13,7 +13,7 @@
 #include "../packetid.hpp"
 #include "gamestate.hpp"
 
-uint16_t player_t::PLAYER_ID = 0;
+int16_t player_t::PLAYER_ID = 0;
 
 player_t::player_t(gamestate_t *gamestate, float x, float y, std::string username){
 	this->id = player_t::PLAYER_ID++;
@@ -102,7 +102,7 @@ void player_t::shoot(){
 	std::cout << "shot ranged at " << projectile.range << "\n";
 }
 
-projectile_t player_t::hitscan(unsigned short ownerid, world_t *world, float x, float y, float angle, const float range){
+projectile_t player_t::hitscan(int16_t ownerid, world_t *world, float x, float y, float angle, const float range){
 	float ix = x, iy = y;
 	sf::Vector2f initialVector(ix,iy);
 	float dx = cos(angle) * 2;

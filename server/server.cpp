@@ -27,8 +27,8 @@ void networking();
 bool setupServerSocket();
 
 player_t* getPlayerByAddress(sf::IpAddress addr, uint16_t port, int32_t *indexOf=nullptr);
-player_t* getPlayerByID(uint16_t id);
-void sendToAllExcept(sf::Packet packet, uint16_t id);
+player_t* getPlayerByID(int16_t id);
+void sendToAllExcept(sf::Packet packet, int16_t id);
 void sendToAll(sf::Packet packet);
 
 int main(){
@@ -227,7 +227,7 @@ void networking(){
 				sendToAllExcept(echo, player->id);
 
 				sf::Packet forceResponsePacket;
-				forceResponsePacket << PACKET_MOVE_PLAYER << (uint16_t) -1 << player->x << player->y;
+				forceResponsePacket << PACKET_MOVE_PLAYER << (int16_t) -1 << player->x << player->y;
 				player->send(forceResponsePacket);
 
 			}else if(packetid == PACKET_KEY_STATE){
@@ -274,14 +274,14 @@ void sendToAll(sf::Packet packet){
 	}
 }
 
-void sendToAllExcept(sf::Packet packet, uint16_t id){
+void sendToAllExcept(sf::Packet packet, int16_t id){
 	for(player_t *player : players){
 		if(player->id == id) continue;
 		player->send(packet);
 	}
 }
 
-player_t* getPlayerByID(uint16_t id){
+player_t* getPlayerByID(int16_t id){
 	for(player_t *player : players){
 		if(player->id == id)
 			return player;

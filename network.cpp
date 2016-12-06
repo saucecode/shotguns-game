@@ -82,7 +82,7 @@ void Network::run(){
 			packet >> packetid;
 
 			if(packetid == PACKET_ADD_PLAYER){
-				uint16_t id = 0;
+				int16_t id = 0;
 				std::string name;
 
 				packet >> id >> name;
@@ -91,7 +91,7 @@ void Network::run(){
 				std::cout << "Added player " << id << " named " << name << "\n";
 
 			}else if(packetid == PACKET_DROP_PLAYER){
-				uint16_t targetid;
+				int16_t targetid;
 				packet >> targetid;
 				std::cout << "Received remove player packet for id " << targetid << "\n";
 				int i=0;
@@ -104,11 +104,11 @@ void Network::run(){
 				}
 
 			}else if(packetid == PACKET_MOVE_PLAYER){
-				uint16_t playerid;
+				int16_t playerid;
 				float x,y;
 				packet >> playerid >> x >> y;
 
-				if(playerid == 65535){
+				if(playerid == -1){
 					game->player->x = x;
 					game->player->y = y;
 				}else{
@@ -179,7 +179,7 @@ void Network::run(){
 
 			}else if(packetid == PACKET_SPAWN_PROJECTILE){
 				sf::Vector2f start, end;
-				uint16_t ownerid;
+				int16_t ownerid;
 				packet >> ownerid >> start.x >> start.y >> end.x >> end.y;
 				projectile_t *projectile = new projectile_t(ownerid, start, end);
 
@@ -201,7 +201,7 @@ void Network::run(){
 	}
 }
 
-player_t* Network::getPlayerByID(uint16_t id){
+player_t* Network::getPlayerByID(int16_t id){
 	for(player_t *player : game->agents){
 		if(player->id == id)
 			return player;
