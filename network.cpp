@@ -84,10 +84,11 @@ void Network::run(){
 			if(packetid == PACKET_ADD_PLAYER){
 				int16_t id = 0;
 				std::string name;
+				float x, y;
 
-				packet >> id >> name;
+				packet >> id >> name >> x >> y;
 
-				game->agents.push_back(new player_t(game, id, 0, 0, name));
+				game->agents.push_back(new player_t(game, id, x, y, name));
 				std::cout << "Added player " << id << " named " << name << "\n";
 
 			}else if(packetid == PACKET_DROP_PLAYER){

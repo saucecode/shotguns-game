@@ -173,12 +173,14 @@ void networking(){
 
 				sf::Packet addPlayerPacket;
 				addPlayerPacket << PACKET_ADD_PLAYER << newplayer->id << username;
+				addPlayerPacket << newplayer->x << newplayer->y;
 				sendToAllExcept(addPlayerPacket, newplayer->id);
 
 				for(player_t *player : players){
 					if(player == newplayer) continue;
 					sf::Packet addPlayerX;
 					addPlayerX << PACKET_ADD_PLAYER << player->id << player->username;
+					addPlayerX << player->x << player->y;
 					newplayer->send(addPlayerX);
 				}
 
