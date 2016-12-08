@@ -18,7 +18,7 @@ class ResourceManager;
 class Game {
 
 	private:
-	const int32_t WINDOW_WIDTH = 640;
+	const int32_t WINDOW_WIDTH = 720;
 	const int32_t WINDOW_HEIGHT = 480;
 
 	public:
