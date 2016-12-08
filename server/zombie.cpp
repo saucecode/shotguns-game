@@ -92,3 +92,8 @@ void zombie_t::update(float delta){
 	if(onGround && direction == 1) keyState[sf::Keyboard::D] = true;
 	if(onGround && direction == -1) keyState[sf::Keyboard::A] = true;
 }
+
+void zombie_t::strike(sf::Vector2f impulse){
+	vx += impulse.x;
+	vy += impulse.y;
+}

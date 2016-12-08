@@ -1,6 +1,8 @@
 #ifndef _SAUCECODE_SHOTGUN_SERVER_ZOMBIE_HPP
 #define _SAUCECODE_SHOTGUN_SERVER_ZOMBIE_HPP
 
+#include <SFML/Graphics.hpp>
+
 #include "gamestate.hpp"
 
 class world_t;
@@ -33,6 +35,7 @@ class zombie_t {
 
 	zombie_t(gamestate_t *gamestate, float x, float y);
 	void update(float delta);
+	void strike(sf::Vector2f impulse);
 };
 
 #endif

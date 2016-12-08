@@ -80,7 +80,6 @@ void player_t::shoot(){
 
 	projectile_t projectile = hitscan(this->id, gamestate->world, x, y - weaponHeight, angle, weapon.range);
 
-	// TODO delete me - testing only
 	sf::Packet projectilePacket;
 	projectilePacket << PACKET_SPAWN_PROJECTILE;
 	projectilePacket << this->id;
@@ -124,6 +123,16 @@ projectile_t player_t::hitscan(int16_t ownerid, world_t *world, float x, float y
 			&& y > zed->y - zed->height/2 && y < zed->y + zed->height/2){
 				zed->health -= weapon.damage;
 				flaggyFlag = false;
+
+				// do knockback
+				sf::Vector2f impulse(0, -100);
+				if(x > zed->x){
+					impulse.x -= 100;
+				}else{
+					impulse.x += 100;
+				}
+				zed->strike(impulse);
+
 				break;
 			}
 		}
