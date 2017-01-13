@@ -4,10 +4,12 @@
 
 #include <iostream>
 #include <cstdint>
+#include <cmath>
 
 #include "../world.hpp"
 
 #include "zombie.hpp"
+#include "player.hpp"
 
 uint16_t zombie_t::ZOMBIE_ID = 0;
 const int8_t zombie_t::AI_WANDERING = 'W', zombie_t::AI_CHASE = 'C';
@@ -91,6 +93,27 @@ void zombie_t::update(float delta){
 	keyState[sf::Keyboard::A] = false;
 	if(onGround && direction == 1) keyState[sf::Keyboard::D] = true;
 	if(onGround && direction == -1) keyState[sf::Keyboard::A] = true;
+
+	// check collisions with player_t
+	for(player_t *player : *gamestate->players){
+		if(abs(player->x - x) < width && abs(player->y - y) < height){
+			sf::Vector2f zedToPlayer(player->x - x, player->y - y);
+			zedToPlayer /= (float) sqrt(zedToPlayer.x * zedToPlayer.x
+				+ zedToPlayer.y * zedToPlayer.y);
+
+			if(player->x > x){
+				player->vx = 450;
+			}else{
+				player->vx = -450;
+			}
+
+			zedToPlayer *= 160.0f;
+			zedToPlayer.y = -80;
+
+			player->strike(zedToPlayer);
+		}
+
+	}
 }
 
 void zombie_t::strike(sf::Vector2f impulse){
