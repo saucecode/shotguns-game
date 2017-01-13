@@ -38,11 +38,16 @@ void player_t::update(float delta){
 	if(keyState[sf::Keyboard::D])
 		vx = moveSpeed;
 
-	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]) vx *= 0.75;
-
 	vy += gravity * delta;
 
 	bool onGround = !gamestate->world->placeFree(x, y + vy*delta + 0.05);
+
+	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]){
+		if(onGround)
+			vx *= 0.75;
+		else
+			vx *= 0.99;
+	}
 
 	if(!onGround)
 		y += vy*delta;
@@ -125,11 +130,11 @@ projectile_t player_t::hitscan(int16_t ownerid, world_t *world, float x, float y
 				flaggyFlag = false;
 
 				// do knockback
-				sf::Vector2f impulse(0, -100);
+				sf::Vector2f impulse(0, -140);
 				if(x > zed->x){
-					impulse.x -= 100;
+					impulse.x -= 200;
 				}else{
-					impulse.x += 100;
+					impulse.x += 200;
 				}
 				zed->strike(impulse);
 
@@ -147,6 +152,11 @@ projectile_t player_t::hitscan(int16_t ownerid, world_t *world, float x, float y
 	);
 
 	return projectile;
+}
+
+void player_t::strike(sf::Vector2f impulse){
+	vx += impulse.x;
+	vy += impulse.y;
 }
 
 bool player_t::lineIntersection(sf::Vector2f origin1, sf::Vector2f dest1,
