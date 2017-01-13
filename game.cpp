@@ -35,7 +35,7 @@ Game::Game(){
 
 	latencyDisplayText.setFont(*(resourceManager->fonts.at("primary")));
 	latencyDisplayText.setString("Latency: ?");
-	latencyDisplayText.setColor(sf::Color::White);
+	latencyDisplayText.setFillColor(sf::Color::White);
 	latencyDisplayText.setCharacterSize(16);
 
 }
@@ -70,13 +70,16 @@ void Game::update(float delta){
 		}
 	}
 
-	player->mouseState[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left) && focused;
-	player->mouseState[1] = sf::Mouse::isButtonPressed(sf::Mouse::Right) && focused;
+	player->mouseState[0] = false;
+	player->mouseState[1] = false;
 
 	if(focused){
 		for(int i=0; i<256; i++){
 			player->keyState[i] = sf::Keyboard::isKeyPressed(sf::Keyboard::Key(i));
 		}
+
+		player->mouseState[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+		player->mouseState[1] = sf::Mouse::isButtonPressed(sf::Mouse::Right);
 
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
 		player->mousePosition[0] = (short) (mousePosition.x + (int) player->x - WINDOW_WIDTH/2);
@@ -118,9 +121,9 @@ void Game::update(float delta){
 
 
 	if(byteCounterClock.getElapsedTime().asSeconds() > 0.25){
-		byteCounterClock.restart();
-		network->DISP_TX = network->LAST_TX * 4;
-		network->DISP_RX = network->LAST_RX * 4;
+		float timeElapsed = byteCounterClock.restart().asSeconds();
+		network->DISP_TX = network->LAST_TX / timeElapsed;
+		network->DISP_RX = network->LAST_RX / timeElapsed;
 		network->LAST_RX = 0;
 		network->LAST_TX = 0;
 	}
