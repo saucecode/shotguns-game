@@ -18,7 +18,7 @@ class player_t {
 	bool resourcesLoaded = false;
 	float x, y, vx, vy;
 	int8_t direction;
-	int16_t health;
+	int16_t health = 100;
 	int16_t id;
 	std::string username;
 	bool keyState[256];

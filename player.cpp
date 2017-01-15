@@ -73,4 +73,9 @@ void player_t::draw(){
 		crosshair.setPosition(mousePosition[0], mousePosition[1]);
 		game->window->draw(crosshair);
 	}
+
+	sf::RectangleShape healthBar(sf::Vector2f(health / 100.0f * 48, 2));
+	healthBar.setPosition(sf::Vector2f(x - 24, y - 28));
+	healthBar.setFillColor(sf::Color::Green);
+	game->window->draw(healthBar);
 }
