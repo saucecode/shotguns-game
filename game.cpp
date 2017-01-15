@@ -84,27 +84,27 @@ void Game::update(float delta){
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
 		player->mousePosition[0] = (short) (mousePosition.x + (int) player->x - WINDOW_WIDTH/2);
 		player->mousePosition[1] = (short) (mousePosition.y + (int) player->y - WINDOW_HEIGHT/2);
-
-		// generate keyboard snapshot blob
-		sf::Packet keyStateBlob;
-		keyStateBlob << PACKET_KEY_STATE;
-
-		keyStateBlob << player->keyState[sf::Keyboard::W];
-		keyStateBlob << player->keyState[sf::Keyboard::A];
-		keyStateBlob << player->keyState[sf::Keyboard::S];
-		keyStateBlob << player->keyState[sf::Keyboard::D];
-		keyStateBlob << player->keyState[sf::Keyboard::Space];
-		keyStateBlob << player->keyState[sf::Keyboard::Q];
-		keyStateBlob << player->keyState[sf::Keyboard::E];
-		keyStateBlob << player->keyState[sf::Keyboard::F];
-
-		keyStateBlob << player->mouseState[0];
-		keyStateBlob << player->mouseState[1];
-		keyStateBlob << player->mousePosition[0];
-		keyStateBlob << player->mousePosition[1];
-
-		network->send(keyStateBlob);
 	}
+
+	// generate keyboard snapshot blob
+	sf::Packet keyStateBlob;
+	keyStateBlob << PACKET_KEY_STATE;
+
+	keyStateBlob << player->keyState[sf::Keyboard::W];
+	keyStateBlob << player->keyState[sf::Keyboard::A];
+	keyStateBlob << player->keyState[sf::Keyboard::S];
+	keyStateBlob << player->keyState[sf::Keyboard::D];
+	keyStateBlob << player->keyState[sf::Keyboard::Space];
+	keyStateBlob << player->keyState[sf::Keyboard::Q];
+	keyStateBlob << player->keyState[sf::Keyboard::E];
+	keyStateBlob << player->keyState[sf::Keyboard::F];
+
+	keyStateBlob << player->mouseState[0];
+	keyStateBlob << player->mouseState[1];
+	keyStateBlob << player->mousePosition[0];
+	keyStateBlob << player->mousePosition[1];
+
+	network->send(keyStateBlob);
 
 	player->update(delta);
 
