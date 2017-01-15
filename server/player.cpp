@@ -40,7 +40,7 @@ void player_t::update(float delta){
 
 	vy += gravity * delta;
 
-	bool onGround = !gamestate->world->placeFree(x, y + vy*delta + 0.05);
+	bool onGround = !gamestate->world->placeFree(x, y + height*0.5 + vy*delta + 0.05);
 
 	if(!keyState[sf::Keyboard::A] && !keyState[sf::Keyboard::D]){
 		if(onGround)
@@ -53,7 +53,7 @@ void player_t::update(float delta){
 		y += vy*delta;
 	else
 		vy = 0;
-	if(gamestate->world->placeFree(x + vx*delta, y))
+	if(gamestate->world->placeFree(x + vx*delta, y + height*0.5))
 		x += vx*delta;
 	else
 		vx = 0;
@@ -157,6 +157,11 @@ projectile_t player_t::hitscan(int16_t ownerid, world_t *world, float x, float y
 void player_t::strike(sf::Vector2f impulse){
 	vx += impulse.x;
 	vy += impulse.y;
+
+	if(vx > 400) vx = 400;
+	if(vy > 400) vy = 400;
+	if(vx < -400) vx = -400;
+	if(vy < -400) vy = -400;
 }
 
 bool player_t::lineIntersection(sf::Vector2f origin1, sf::Vector2f dest1,

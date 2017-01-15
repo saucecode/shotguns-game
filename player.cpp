@@ -23,7 +23,7 @@ player_t::player_t(Game *game, int16_t id, float x, float y, std::string usernam
 	shape.setOrigin(x + shape.getRadius(),y + shape.getRadius()*2);
 
 	sprite.setTexture(*(game->resourceManager->textures.at("character")));
-	sprite.setOrigin(8,16);
+	sprite.setOrigin(sprite.getTexture()->getSize().x*0.5, sprite.getTexture()->getSize().y*0.5);
 	sprite.setScale(sf::Vector2f(2,2));
 
 	if(id == -1){
