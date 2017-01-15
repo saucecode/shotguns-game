@@ -202,6 +202,13 @@ void Network::run(){
 				game->player->id = myid;
 				std::cout << "WHO_AM_I: id " << myid << "\n";
 
+			}else if(packetid == PACKET_PLAYER_HEALTH_BLOB){
+				while(!packet.endOfPacket()){
+					int16_t targetID, targetHealth;
+					packet >> targetID >> targetHealth;
+					player_t *target = getPlayerByID(targetID);
+					target->health = targetHealth;
+				}
 			}
 
 		}
@@ -209,6 +216,7 @@ void Network::run(){
 }
 
 player_t* Network::getPlayerByID(int16_t id){
+	if(id == game->player->id) return game->player;
 	for(player_t *player : game->agents){
 		if(player->id == id)
 			return player;

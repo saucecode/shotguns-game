@@ -26,7 +26,7 @@ class player_t {
 	float width = 32, height = 32;
 	float lastSentX=0, lastSentY=0;
 	int8_t direction;
-	int16_t health;
+	int16_t health = 100;
 	int16_t id;
 	std::string username;
 	gamestate_t *gamestate;

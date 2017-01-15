@@ -138,6 +138,15 @@ void gameLoop(){
 			zombies.end()
 		);
 
+		if(secondPassed){
+			sf::Packet healthBlob;
+			healthBlob << PACKET_PLAYER_HEALTH_BLOB;
+			for(player_t *player : players){
+				healthBlob << player->id << player->health;
+			}
+			sendToAll(healthBlob);
+		}
+
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 }
