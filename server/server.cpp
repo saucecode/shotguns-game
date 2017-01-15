@@ -195,6 +195,9 @@ void networking(){
 				}
 
 				newplayer->send(spawnZombiePacket);
+				sf::Packet whoPacket;
+				whoPacket << PACKET_WHO_AM_I << newplayer->id;
+				newplayer->send(whoPacket);
 
 			}else if(packetid == PACKET_DISCONNECT){
 				std::cout << "Disconnect received.\n";
@@ -264,6 +267,11 @@ void networking(){
 					//std::cout << "Player " << target->id << " has ping " <<
 					//	target->latency*1000 << "ms\n";
 				}
+
+			}else if(packetid == PACKET_WHO_AM_I){
+				player_t *target = getPlayerByAddress(client, clientPort);
+				packet << target->id;
+				target->send(packet);
 
 			}
 		}

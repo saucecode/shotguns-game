@@ -196,6 +196,12 @@ void Network::run(){
 
 				std::cout << "spawned projectile\n";
 
+			}else if(packetid == PACKET_WHO_AM_I){
+				int16_t myid;
+				packet >> myid;
+				game->player->id = myid;
+				std::cout << "WHO_AM_I: id " << myid << "\n";
+
 			}
 
 		}
