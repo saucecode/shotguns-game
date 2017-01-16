@@ -164,6 +164,10 @@ void player_t::strike(sf::Vector2f impulse){
 	if(vy < -400) vy = -400;
 }
 
+void player_t::damage(int16_t damage){
+	health -= damage;
+}
+
 bool player_t::lineIntersection(sf::Vector2f origin1, sf::Vector2f dest1,
 		sf::Vector2f origin2, sf::Vector2f dest2){
 	float s1_x = dest1.x - origin1.x;

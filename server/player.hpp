@@ -58,6 +58,8 @@ class player_t {
 	void send(sf::Packet packet);
 	void strike(sf::Vector2f impulse);
 
+	void damage(int16_t damage);
+
 
 	static bool lineIntersection(sf::Vector2f origin1, sf::Vector2f dest1,
 		sf::Vector2f origin2, sf::Vector2f dest2);

@@ -111,6 +111,7 @@ void zombie_t::update(float delta){
 			zedToPlayer.y = -80;
 
 			player->strike(zedToPlayer);
+			player->damage(damage);
 		}
 
 	}

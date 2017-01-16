@@ -26,6 +26,7 @@ class zombie_t {
 	int16_t health = 1000;
 	uint16_t id;
 	int8_t state;
+	int16_t damage = 12;
 	float deltaAccumulator = 0;
 
 	gamestate_t *gamestate;
