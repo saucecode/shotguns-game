@@ -188,13 +188,13 @@ void Network::run(){
 				projectile->line[0].color = sf::Color(127,127,127);
 				projectile->line[1].color = sf::Color(127,127,127);
 
-				std::cout << "received projectile ranged " << projectile->range << " id:" << ownerid << std::endl;
+				// std::cout << "received projectile ranged " << projectile->range << " id:" << ownerid << std::endl;
 
 				game->projectilesMutex.lock();
 				game->projectiles.push_back(projectile);
 				game->projectilesMutex.unlock();
 
-				std::cout << "spawned projectile\n";
+				// std::cout << "spawned projectile\n";
 
 			}else if(packetid == PACKET_WHO_AM_I){
 				int16_t myid;

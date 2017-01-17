@@ -103,7 +103,7 @@ void player_t::shoot(){
 	send(projectilePacket);
 
 
-	std::cout << "shot ranged at " << projectile.range << "\n";
+	// std::cout << "shot ranged at " << projectile.range << "\n";
 }
 
 projectile_t player_t::hitscan(int16_t ownerid, world_t *world, float x, float y, float angle, const float range){
@@ -220,7 +220,7 @@ void player_t::deployZombie(){
 
 	sf::Packet spawnZombiePacket;
 	spawnZombiePacket << PACKET_ADD_ZOMBIE << (int) 1 << zed->id << zed->x << zed->y;
-	std::cout << angle << "\n";
+	// std::cout << angle << "\n";
 	send(spawnZombiePacket);
 }
 
