@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <vector>
+#include <string>
 
 typedef struct {
 	float x;
@@ -21,6 +22,7 @@ class world_t {
 	bool isLoaded = false;
 
 	world_t();
+	world_t(std::string fileName);
 
 	void addElement(solid_t *element);
 	void drawElements(sf::RenderWindow *window);
