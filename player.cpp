@@ -42,6 +42,7 @@ player_t::~player_t(){
 }
 
 void player_t::update(double delta){
+	/*
 	if(keyState[sf::Keyboard::A])
 		vx = -moveSpeed;
 	if(keyState[sf::Keyboard::D])
@@ -63,6 +64,7 @@ void player_t::update(double delta){
 	if(onGround && keyState[sf::Keyboard::Space]){
 		vy = -450; // jump_velocity = sqrt(2 * gravity * maximum_height)
 	}
+	*/
 }
 
 void player_t::draw(){
